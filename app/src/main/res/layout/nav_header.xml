@@ -10,5 +10,5 @@
 
     <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/warhawk_logo" android:id="@+id/imageView"/>
+            android:layout_height="wrap_content" app:srcCompat="@drawable/warhawk_logo" android:contentDescription="@string/warhawk_logo"/>
 </LinearLayout>

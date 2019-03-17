@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">Warhawk Reborn</string>
-    <string name="start_service">Start service</string>
-    <string name="service_name">ServerSearchResponderService</string>
-    <string name="stop_service">Stop Service</string>
+    <string name="warhawk_logo">Warhawk logo</string>
+    <string name="app_copyright_message">Ⓒ2019, Dominik Thalhammer, https://thalhammer.it</string>
+
     <string name="nav_start_playing">Start playing</string>
     <string name="nav_host_server">Host a server</string>
+    <string name="nav_app_log">Debug log</string>
 
-    <string name="log_output">Log output:</string>
+    <string name="fragment_log_log_output">Log output:</string>
+
     <string name="fragment_host_description">Hosting is not yet implemented.</string>
+
+    <string name="fragment_main_menu_reload">Reload</string>
+    <string name="fragment_main_status_contentDescription">Service status</string>
 </resources>

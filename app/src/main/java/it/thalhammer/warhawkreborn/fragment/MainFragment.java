@@ -4,26 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
+import android.widget.ImageView;
 import android.widget.TextView;
-import it.thalhammer.warhawkreborn.AppLog;
-import it.thalhammer.warhawkreborn.MainActivity;
 import it.thalhammer.warhawkreborn.R;
+import it.thalhammer.warhawkreborn.ServerSearchResponder;
+import it.thalhammer.warhawkreborn.model.ServerList;
 
-import java.util.List;
-
-public class MainFragment extends Fragment implements AppLog.OnLogListener {
+public class MainFragment extends Fragment implements ServerSearchResponder.OnStateChangeListener {
     private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
-        // Required empty public constructor
     }
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -33,18 +28,19 @@ public class MainFragment extends Fragment implements AppLog.OnLogListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        ((TextView)view.findViewById(R.id.log_view)).setMovementMethod(new ScrollingMovementMethod());
-        this.onLogUpdated(AppLog.getInstance().getEntries());
+    public void onViewCreated(View view, Bundle savedInstance) {
+        updateDisplay();
     }
 
     @Override
@@ -56,34 +52,62 @@ public class MainFragment extends Fragment implements AppLog.OnLogListener {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        AppLog.getInstance().addListener(this);
+        ServerSearchResponder.getInstance().addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        AppLog.getInstance().removeListener(this);
+        ServerSearchResponder.getInstance().removeListener(this);
     }
 
     @Override
-    public void onLogUpdated(List<String> entries) {
-        String text = "";
-        for(String e : entries) {
-            text += e + "\n";
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_main_menu, menu);  // Use filter.xml from step 1
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.fragment_main_menu_action_reload){
+            ServerSearchResponder.getInstance().updateServers();
+            return true;
         }
 
-        final String lstr = text;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onServerListUpdated(ServerList list) {
+        updateDisplay();
+    }
+
+    @Override
+    public void onServerStart() {
+        updateDisplay();
+    }
+
+    @Override
+    public void onServerStop() {
+        updateDisplay();
+    }
+
+    private void updateDisplay() {
         getView().post(new Runnable() {
             @Override
             public void run() {
-                ((TextView)getView().findViewById(R.id.log_view)).setText(lstr);
+                int status = R.drawable.ic_status_failed;
+                if(ServerSearchResponder.getInstance().isActive()) {
+                    status = R.drawable.ic_status_ok;
+                }
+                ((ImageView)getView().findViewById(R.id.fragment_main_status_image)).setImageDrawable(getResources().getDrawable(status));
+                ((TextView)getView().findViewById(R.id.fragment_main_status_text)).setText(ServerSearchResponder.getInstance().getStatusText());
             }
         });
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

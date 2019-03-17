@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="@dimen/fragment_padding"
               android:orientation="vertical"
               tools:context=".fragment.MainFragment">
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="@string/log_output"/>
+    <ImageView
+            android:src="@drawable/warhawk_logo"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:contentDescription="@string/warhawk_logo"/>
+    <ImageView
+            android:src="@drawable/ic_status_ok"
+            android:layout_width="match_parent"
+            android:layout_height="160dp" android:id="@+id/fragment_main_status_image"
+            android:contentDescription="@string/fragment_main_status_contentDescription"/>
     <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/log_view"
-            android:scrollbars="vertical"/>
+            android:layout_height="wrap_content" android:id="@+id/fragment_main_status_text"
+            android:gravity="center_horizontal"/>
 </LinearLayout>

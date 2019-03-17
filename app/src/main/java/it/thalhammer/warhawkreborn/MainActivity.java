@@ -11,16 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 import it.thalhammer.warhawkreborn.fragment.HostFragment;
+import it.thalhammer.warhawkreborn.fragment.LogFragment;
 import it.thalhammer.warhawkreborn.fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, HostFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements LogFragment.OnFragmentInteractionListener, HostFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener {
     private static final String LOG_TAG = MainActivity.class.getName();
-    private Thread responder = null;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -51,12 +48,18 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
                     case R.id.nav_host_server:
                         setFragment(new HostFragment());
                         break;
+                    case R.id.nav_app_log:
+                        setFragment(new LogFragment());
+                        break;
                 }
                 return true;
             }
         });
 
         setFragment(new MainFragment());
+
+        AppLog.getInstance().addEntry(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+        AppLog.getInstance().addEntry(getResources().getString(R.string.app_copyright_message));
     }
 
     private void setFragment(Fragment f) {
@@ -81,29 +84,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     protected void onResume() {
         super.onResume();
         Log.i(LOG_TAG, "onResume");
-        responder = new ServerSearchResponderThread() {
-            @Override
-            protected void appendLog(String str) {
-                Log.i(LOG_TAG, str);
-                AppLog.getInstance().addEntry(str);
-            }
-        };
-        responder.start();
+        ServerSearchResponder.getInstance().start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(LOG_TAG, "onPause");
-        if (responder != null && responder.isAlive()) {
-            responder.interrupt();
-            try {
-                responder.join();
-            } catch (InterruptedException e) {
-                Log.d(LOG_TAG, "Failed to join responder thread", e);
-            }
-            Log.d(LOG_TAG, "Responder exited");
-        }
+        ServerSearchResponder.getInstance().stop();
     }
 
     @Override

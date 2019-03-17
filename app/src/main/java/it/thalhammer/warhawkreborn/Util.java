@@ -26,6 +26,10 @@ public class Util {
         return res;
     }
 
+    public static String byteArrayToHexString(byte[] s) {
+        return byteArrayToHexString(s, s.length);
+    }
+
     public static String downloadString(String uri) {
         try
         {

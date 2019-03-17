@@ -2,28 +2,44 @@ package it.thalhammer.warhawkreborn;
 
 import android.util.Log;
 import it.thalhammer.warhawkreborn.model.ServerList;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
-public abstract class ServerSearchResponderThread extends Thread {
+public class ServerSearchResponderThread extends Thread {
+    public interface OnStateChangeHandler {
+        void onServerListUpdated(ServerList list);
+        void onServerStart();
+        void onServerStop();
+    }
+
     private static final String LOG_TAG = ServerSearchResponderThread.class.getName();
     private DatagramSocket serverSocket = null;
+    private boolean shouldUpdateServers = false;
 
     @Override
     public void run() {
         try {
             serverSocket = new DatagramSocket(10029);
+            serverSocket.setSoTimeout(1000);
 
-            updateServers();
+            doUpdateServers();
 
+            if(handler!= null) handler.onServerStart();
             while (!this.isInterrupted()) {
+                if(shouldUpdateServers) {
+                    doUpdateServers();
+                    shouldUpdateServers = false;
+                }
                 byte[] receiveData = new byte[1024];
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                serverSocket.receive(receivePacket);
+                try {
+                    serverSocket.receive(receivePacket);
+                } catch(SocketTimeoutException e) {
+                    continue;
+                }
                 InetAddress src = receivePacket.getAddress();
                 this.handlePacket(receivePacket.getData(), receivePacket.getLength(), src);
             }
@@ -36,6 +52,7 @@ public abstract class ServerSearchResponderThread extends Thread {
             if(serverSocket!=null) serverSocket.close();
         }
         appendLog("Responder exited");
+        if(handler!= null) handler.onServerStop();
     }
 
     @Override
@@ -43,16 +60,34 @@ public abstract class ServerSearchResponderThread extends Thread {
         super.interrupt();
         if(serverSocket != null) serverSocket.close();
     }
-
-    private void updateServers() {
+    
+    private void doUpdateServers() {
         appendLog("Downloading server list...");
         serverList = API.getServerList();
         int n_online = 0;
         for(ServerList.Entry e : serverList) if(e.isOnline()) n_online++;
         appendLog("Found " + serverList.size() + " servers (" + n_online + " online)");
+        if(n_online>0) {
+            statusText = "Broadcasting " + serverList.size() + " servers (" + n_online + " online)\nGo to your PS3 and search for local games!";
+        } else {
+            statusText = "Startup ok, but no servers are online :(";
+        }
+        if(handler != null) handler.onServerListUpdated(serverList);
     }
 
+    public void updateServers() {
+        shouldUpdateServers = true;
+    }
+
+    @Getter
     private ServerList serverList = null;
+
+    @Getter
+    @Setter
+    private OnStateChangeHandler handler = null;
+
+    @Getter
+    private String statusText = "";
 
     private void handlePacket(byte[] data, int len, InetAddress src) {
         if(len > 3) {
@@ -73,5 +108,8 @@ public abstract class ServerSearchResponderThread extends Thread {
         }
     }
 
-    protected abstract void appendLog(String str);
+    private void appendLog(String str) {
+        Log.i(LOG_TAG, str);
+        AppLog.getInstance().addEntry(str);
+    }
 }

@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import it.thalhammer.warhawkreborn.model.ServerList;
+import it.thalhammer.warhawkreborn.networking.DiscoveryPacket;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,17 +28,9 @@ public class API {
         for(ServerList.Entry e : result) {
             if(!e.isOnline()) continue;
             try {
-                byte[] res = hexStringToByteArray(e.getResponse());
-                byte[] addrBytes = Inet4Address.getByName(e.getHostname()).getAddress();
-                res[112] = addrBytes[0];
-                res[113] = addrBytes[1];
-                res[114] = addrBytes[2];
-                res[115] = addrBytes[3];
-                res[176] = addrBytes[0];
-                res[177] = addrBytes[1];
-                res[178] = addrBytes[2];
-                res[179] = addrBytes[3];
-                e.setResponse(byteArrayToHexString(res, res.length));
+                DiscoveryPacket packet = new DiscoveryPacket(e.getResponse());
+                packet.setIP(Inet4Address.getByName(e.getHostname()));
+                e.setResponse(packet.getHexString());
             } catch (UnknownHostException ex) {
                 Log.e(LOG_TAG, "Failed to download server list", ex);
             }
