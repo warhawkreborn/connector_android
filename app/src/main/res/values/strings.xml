@@ -3,4 +3,9 @@
     <string name="start_service">Start service</string>
     <string name="service_name">ServerSearchResponderService</string>
     <string name="stop_service">Stop Service</string>
+    <string name="nav_start_playing">Start playing</string>
+    <string name="nav_host_server">Host a server</string>
+
+    <string name="log_output">Log output:</string>
+    <string name="fragment_host_description">Hosting is not yet implemented.</string>
 </resources>
