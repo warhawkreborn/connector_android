@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.List;
 
 public class ServerSearchResponderThread extends Thread {
     public interface OnStateChangeHandler {
@@ -27,6 +28,8 @@ public class ServerSearchResponderThread extends Thread {
 
             doUpdateServers();
 
+            List<InetAddress> localIps = Util.getLocalIpAddress();
+
             if(handler!= null) handler.onServerStart();
             while (!this.isInterrupted()) {
                 if(shouldUpdateServers) {
@@ -40,8 +43,15 @@ public class ServerSearchResponderThread extends Thread {
                 } catch(SocketTimeoutException e) {
                     continue;
                 }
+                // Search packets are always 188 bytes
+                if(receivePacket.getLength() != 188) continue;
                 InetAddress src = receivePacket.getAddress();
-                this.handlePacket(receivePacket.getData(), receivePacket.getLength(), src);
+                boolean found = false;
+                for(InetAddress addr : localIps) {
+                    if(addr.equals(src)) { found = true; break; }
+                }
+                if(!found)
+                    this.handlePacket(receivePacket.getData(), receivePacket.getLength(), src);
             }
         } catch (SocketException e) {
             appendLog(e.getMessage());

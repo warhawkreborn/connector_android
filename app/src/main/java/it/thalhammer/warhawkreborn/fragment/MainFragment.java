@@ -94,7 +94,9 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
     }
 
     private void updateDisplay() {
-        getView().post(new Runnable() {
+        View view = getView();
+        if(view == null) return;
+        view.post(new Runnable() {
             @Override
             public void run() {
                 int status = R.drawable.ic_status_failed;

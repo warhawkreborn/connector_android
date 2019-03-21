@@ -4,6 +4,7 @@ import it.thalhammer.warhawkreborn.Util;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 
 public class DiscoveryPacket {
     private byte[] data;
@@ -40,11 +41,67 @@ public class DiscoveryPacket {
         data[179] = addrBytes[3];
     }
 
+    public String getName() {
+        if(data == null) return "";
+        int i;
+        for(i=0; i<32; i++) {
+            if(data[180 + i] == 0) break;
+        }
+        return new String(data, 180, i, Charset.defaultCharset());
+    }
+
+    public String getGameMode() {
+        if(data == null) return "";
+        switch(data[237]) {
+            case 0: return "DM";
+            case 1: return "TDM";
+            case 2: return "Ctf";
+            case 3: return "Zones";
+            case 4: return "Hero";
+            case 5: return "Collection";
+            default: return "Unknown gamemode";
+        }
+    }
+
+    public String getMap() {
+        if(data == null) return "";
+        int i;
+        for(i=0; i<24; i++) {
+            if(data[212 + i] == 0) break;
+        }
+        return new String(data, 212, i, Charset.defaultCharset());
+    }
+
+    public String getMapName() {
+        String map = getMap();
+        if(map.equals("multi01")) return "Eucadia";
+        if(map.equals("multi02")) return "Island Outpost";
+        if(map.equals("multi03")) return "The Badlands";
+        if(map.equals("multi05")) return "Destroyed Capitol";
+        if(map.equals("multi06")) return "Omega Factory";
+        if(map.equals("multi07")) return "Archipelago";
+        if(map.equals("multi08")) return "Vaporfield Glacier";
+        if(map.equals("multi09")) return "Tau Crater";
+        return "Unknown";
+    }
+
     public byte[] getBytes() {
         return data;
     }
 
     public String getHexString() {
         return Util.byteArrayToHexString(getBytes());
+    }
+
+    public int getMapSize() {
+        int i;
+        int start = -1;
+        for(i=0; i<16; i++) {
+            if(data[256 + i] == 0) break;
+            if(start == -1 && data[256 + i] < 58 && data[256 + i] > 47) start = i;
+        }
+        String mode = new String(data, 256, i, Charset.defaultCharset());
+        //return Integer.valueOf(mode.substring(start));
+        return data[336];
     }
 }

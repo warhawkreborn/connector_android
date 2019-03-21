@@ -1,8 +1,12 @@
 package it.thalhammer.warhawkreborn;
 
+import android.util.Log;
+
 import java.util.*;
 
 public class AppLog {
+    private static final String LOG_TAG = AppLog.class.getName();
+
     public interface OnLogListener {
         void onLogUpdated(List<String> entries);
     }
@@ -21,6 +25,7 @@ public class AppLog {
 
     public void addEntry(String entry) {
         log.add(entry);
+        Log.d(LOG_TAG, entry);
         List<String> entries = getEntries();
         for(OnLogListener l : listeners) {
             l.onLogUpdated(entries);

@@ -66,7 +66,8 @@ public class LogFragment extends Fragment implements AppLog.OnLogListener {
 
     @Override
     public void onLogUpdated(final List<String> entries) {
-        getView().post(new Runnable() {
+        View v = getView();
+        if(v != null) v.post(new Runnable() {
             @Override
             public void run() {
                 String text = "";

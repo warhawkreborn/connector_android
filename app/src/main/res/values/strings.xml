@@ -3,6 +3,8 @@
     <string name="warhawk_logo">Warhawk logo</string>
     <string name="app_copyright_message">Ⓒ2019, Dominik Thalhammer, https://thalhammer.it</string>
 
+    <string name="main_update_available">Update available</string>
+
     <string name="nav_start_playing">Start playing</string>
     <string name="nav_host_server">Host a server</string>
     <string name="nav_app_log">Debug log</string>
@@ -13,4 +15,15 @@
 
     <string name="fragment_main_menu_reload">Reload</string>
     <string name="fragment_main_status_contentDescription">Service status</string>
+    <string name="fragment_host_searching">Looking for active warhawk servers on the network:</string>
+    <string name="nav_server_list">Server list</string>
+    <string name="fragment_server_list_currently_active_servers">Currently active servers:</string>
+    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and
+        hosting a LAN-Mode game.
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_update_ignore">Ignore</string>
+    <string name="fragment_update_continue">Update</string>
 </resources>
