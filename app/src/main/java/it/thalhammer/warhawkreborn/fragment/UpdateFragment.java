@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.util.Consumer;
@@ -24,8 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class UpdateFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+public class UpdateFragment extends FragmentBase {
     private UpdateInfo info;
 
     /*private class UpdateTask extends AsyncTask<UpdateInfo, Double, Void> {
@@ -76,36 +76,31 @@ public class UpdateFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            info = UpdateInfo.fromBundle(getArguments().getBundle("info"));
+        final Bundle args = getArguments();
+        if (args != null) {
+            info = UpdateInfo.fromBundle(args.getBundle("info"));
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_update, container, false);
     }
 
     @Override
-    public void onViewCreated(View v, Bundle saveState) {
-        ((TextView)getView().findViewById(R.id.fragment_update_changes)).setText(info.getChanges());
-        ((Button)getView().findViewById(R.id.fragment_update_btn_cancel)).setOnClickListener(new View.OnClickListener() {
+    public void onViewCreated(@NonNull View v, Bundle saveState) {
+        ((TextView)v.findViewById(R.id.fragment_update_changes)).setText(info.getChanges());
+        v.findViewById(R.id.fragment_update_btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.setDrawerVisible(true);
                 mListener.setFragment(new MainFragment());
             }
         });
-        ((Button)getView().findViewById(R.id.fragment_update_btn_update)).setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.fragment_update_btn_update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getView().findViewById(R.id.fragment_update_section_info).setVisibility(View.GONE);
-                //getView().findViewById(R.id.fragment_update_section_progress).setVisibility(View.VISIBLE);
-
-                //UpdateTask task = new UpdateTask();
-                //task.execute(info);
                 String url = "https://warhawk.thalhammer.it/" + info.getFilename();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -113,28 +108,5 @@ public class UpdateFragment extends Fragment {
             }
         });
         mListener.setDrawerVisible(false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-        void setFragment(Fragment f);
-        void setDrawerVisible(boolean v);
     }
 }

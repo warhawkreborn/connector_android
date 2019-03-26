@@ -1,11 +1,11 @@
 package it.thalhammer.warhawkreborn.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.*;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 import it.thalhammer.warhawkreborn.R;
@@ -13,16 +13,8 @@ import it.thalhammer.warhawkreborn.ServerSearchResponder;
 import it.thalhammer.warhawkreborn.model.ServerList;
 
 public class MainFragment extends Fragment implements ServerSearchResponder.OnStateChangeListener {
-    private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
-    }
-
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -32,33 +24,26 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstance) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstance) {
         updateDisplay();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
         ServerSearchResponder.getInstance().addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
         ServerSearchResponder.getInstance().removeListener(this);
     }
 
@@ -94,7 +79,7 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
     }
 
     private void updateDisplay() {
-        View view = getView();
+        final View view = getView();
         if(view == null) return;
         view.post(new Runnable() {
             @Override
@@ -103,13 +88,9 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
                 if(ServerSearchResponder.getInstance().isActive()) {
                     status = R.drawable.ic_status_ok;
                 }
-                ((ImageView)getView().findViewById(R.id.fragment_main_status_image)).setImageDrawable(getResources().getDrawable(status));
-                ((TextView)getView().findViewById(R.id.fragment_main_status_text)).setText(ServerSearchResponder.getInstance().getStatusText());
+                ((ImageView)view.findViewById(R.id.fragment_main_status_image)).setImageDrawable(ContextCompat.getDrawable(getActivity(), status));
+                ((TextView)view.findViewById(R.id.fragment_main_status_text)).setText(ServerSearchResponder.getInstance().getStatusText());
             }
         });
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 }

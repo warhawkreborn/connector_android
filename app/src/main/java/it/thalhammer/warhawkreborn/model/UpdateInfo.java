@@ -14,6 +14,7 @@ public class UpdateInfo {
     private String filename;
 
     public static UpdateInfo fromBundle(Bundle info) {
+        if(info == null) return null;
         UpdateInfo res = new UpdateInfo();
         res.setVersion(info.getString("version"));
         res.setChanges(info.getString("changes"));

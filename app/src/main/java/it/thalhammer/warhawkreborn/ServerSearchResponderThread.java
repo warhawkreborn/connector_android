@@ -29,6 +29,13 @@ public class ServerSearchResponderThread extends Thread {
             doUpdateServers();
 
             List<InetAddress> localIps = Util.getLocalIpAddress();
+            for(InetAddress addr: localIps) {
+                appendLog("Local address; " + addr.getHostAddress());
+            }
+
+            if(!serverSocket.isBound()) {
+                appendLog("Serversocket is not bound :(");
+            }
 
             if(handler!= null) handler.onServerStart();
             while (!this.isInterrupted()) {
@@ -54,10 +61,13 @@ public class ServerSearchResponderThread extends Thread {
                     this.handlePacket(receivePacket.getData(), receivePacket.getLength(), src);
             }
         } catch (SocketException e) {
+            appendLog("Responderthread crashed:");
             appendLog(e.getMessage());
+            appendLog(e.toString());
         } catch (IOException e) {
-            if(serverSocket != null && serverSocket.isClosed()) return;
+            appendLog("Responderthread crashed:");
             appendLog(e.getMessage());
+            appendLog(e.toString());
         } finally {
             if(serverSocket!=null) serverSocket.close();
         }

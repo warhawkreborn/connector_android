@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -27,15 +28,14 @@ import java.net.*;
 import java.util.List;
 import java.util.Map;
 
-public class HostServerFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+public class HostServerFragment extends FragmentBase {
     private DiscoveryPacket packet;
 
     public HostServerFragment() {
         // Required empty public constructor
     }
 
-    public static HostServerFragment newInstance(DiscoveryPacket pkt, Inet4Address addr) {
+    static HostServerFragment newInstance(DiscoveryPacket pkt, Inet4Address addr) {
         HostServerFragment fragment = new HostServerFragment();
         Bundle data = new Bundle();
         data.putByteArray("pkt", pkt.getBytes());
@@ -49,46 +49,55 @@ public class HostServerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.packet = new DiscoveryPacket(getArguments().getByteArray("pkt"));
-            }
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_host_server, container, false);
     }
 
-    private class Task extends AsyncTask<Void, String, Void> {
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private static class Task extends AsyncTask<Void, String, Void> {
+        private HostServerFragment parent;
+
+        Task(HostServerFragment parent) {
+            this.parent = parent;
+        }
+
         private boolean tryUPNP(String addr) {
             try {
-                publishProgress("Searching for gateway...\n");
+                publishProgress(parent.getString(R.string.fragment_host_server_searching_gateway));
 
                 GatewayDiscover gatewayDiscover = new GatewayDiscover();
                 Map<InetAddress, GatewayDevice> gateways = gatewayDiscover.discover();
 
                 if (gateways.isEmpty()) {
-                    publishProgress("No gateway found :(\n");
+                    publishProgress(parent.getString(R.string.fragment_host_server_no_gateway));
                     return false;
                 }
 
                 GatewayDevice activeGW = gatewayDiscover.getValidGateway();
                 if (null != activeGW) {
                     URL uri = new URL(activeGW.getLocation());
-                    publishProgress("Using gateway: " + activeGW.getFriendlyName() + "(" + uri.getHost() + ")\n");
+                    publishProgress(parent.getString(R.string.fragment_host_server_using_gateway, activeGW.getFriendlyName(), uri.getHost()));
                 } else {
-                    publishProgress("No active gateway device found :(\n");
+                    publishProgress(parent.getString(R.string.fragment_host_server_no_active_gateway));
                     return false;
                 }
 
                 try {
-                    PortMappingEntry portMapping = new PortMappingEntry();
-
                     if (activeGW.addPortMapping(10029, 10029, addr, "UDP", "Warhawk Server redirect")) {
-                        publishProgress("Mapping SUCCESSFUL.\n");
+                        publishProgress(parent.getString(R.string.fragment_host_server_mapping_success));
                         return true;
                     } else {
-                        publishProgress("Failed to create port mapping.\n");
+                        publishProgress(parent.getString(R.string.fragment_host_server_mapping_failed));
                         return false;
                     }
                 } catch (IOException e) {
@@ -107,17 +116,19 @@ public class HostServerFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            String ps3 = getArguments().getString("ps3");
+        protected Void doInBackground(Void... params) {
+            final Bundle args = parent.getArguments();
+            if(args == null) return null;
+            final String ps3 = args.getString("ps3");
+            publishProgress(parent.getString(R.string.fragment_host_server_setting_up, ps3));
             boolean upnpres = tryUPNP(ps3);
             if(!upnpres) {
-                publishProgress("UPNP setup failed.\nPlease create a port forward in your router:\n");
-                publishProgress("External Port: 10029\nInternal Port 10029\nInternal IP: " + ps3 + "\nType: UDP\n");
+                publishProgress(parent.getString(R.string.fragment_host_server_upnp_failed, ps3));
             }
             while(!this.isCancelled()) {
                 CheckForwardingResponse resp = API.checkForwarding();
                 if(resp.getInfo().getState().equals("online")) break;
-                publishProgress("Waiting for host to become available, sleeping 30 seconds.\n");
+                publishProgress(parent.getString(R.string.fragment_host_server_waiting));
                 try {
                     Thread.sleep(30*1000);
                 } catch (InterruptedException e) {
@@ -125,35 +136,36 @@ public class HostServerFragment extends Fragment {
             }
             if(this.isCancelled()) return null;
 
-            publishProgress("Host is online, adding to registry\n");
+            publishProgress(parent.getString(R.string.fragment_host_server_adding));
 
             AddHostResponse resp = API.addHost(true);
             if(resp == null) {
-                publishProgress("Failed to add host to registry :(\n");
-                publishProgress("API Request failed\n");
+                publishProgress(parent.getString(R.string.fragment_host_server_api_request_failed));
                 return null;
             }
             if(!resp.isOk()) {
-                publishProgress("Failed to add host to registry :(\n");
-                publishProgress(resp.getState() + "\n");
+                publishProgress(parent.getString(R.string.fragment_host_server_api_failed, resp.getState()));
                 return null;
             }
-            publishProgress("Added server " + resp.getInfo().getName() + " to registry.\n");
-            publishProgress("It should show up in the server list!\n");
+            publishProgress(parent.getString(R.string.fragment_host_server_added, resp.getInfo().getName()));
             return null;
         }
 
         @Override
         protected void  onProgressUpdate(String... logs) {
+            final View view = parent.getView();
+            if(view == null) return;
             for(String s : logs) {
-                ((TextView)getView().findViewById(R.id.fragment_host_server_log)).append(s);
+                ((TextView)view.findViewById(R.id.fragment_host_server_log)).append(s + "\n");
             }
         }
 
         @Override
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
-            getView().findViewById(R.id.fragment_host_server_pb).setVisibility(View.GONE);
+            final View view = parent.getView();
+            if(view == null) return;
+            view.findViewById(R.id.fragment_host_server_pb).setVisibility(View.GONE);
         }
     }
 
@@ -162,8 +174,10 @@ public class HostServerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((TextView)getView().findViewById(R.id.fragment_host_server_log)).setText("Setting up server configuration for PS3 on IP " + getArguments().getString("ps3") + "\n");
-        task = new Task();
+        View view = getView();
+        if(view != null)
+            ((TextView)view.findViewById(R.id.fragment_host_server_log)).setText("");
+        task = new Task(this);
         task.execute();
     }
 
@@ -171,26 +185,5 @@ public class HostServerFragment extends Fragment {
     public void onPause() {
         super.onPause();
         task.cancel(true);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 }

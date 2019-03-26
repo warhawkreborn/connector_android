@@ -9,10 +9,10 @@
                 android:id="@+id/nav_server_list"
                 android:icon="@drawable/ic_storage_black_24dp"
                 android:title="@string/nav_server_list" />
-        <!-- <item
+        <item
                 android:id="@+id/nav_host_server"
                 android:icon="@drawable/ic_storage_black_24dp"
-                android:title="@string/nav_host_server" /> -->
+                android:title="@string/nav_host_server" />
         <item
                 android:id="@+id/nav_app_log"
                 android:icon="@drawable/ic_error_black_24dp"

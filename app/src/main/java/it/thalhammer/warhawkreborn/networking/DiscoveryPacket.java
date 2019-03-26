@@ -104,4 +104,11 @@ public class DiscoveryPacket {
         //return Integer.valueOf(mode.substring(start));
         return data[336];
     }
+
+    public void setPort(int i) {
+        int lsb = i & 0xff;
+        int msb = (i & 0xff00) >> 8;
+        data[120] = (byte)lsb;
+        data[121] = (byte)msb;
+    }
 }

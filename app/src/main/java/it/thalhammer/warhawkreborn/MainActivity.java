@@ -1,18 +1,14 @@
 package it.thalhammer.warhawkreborn;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,11 +17,7 @@ import android.view.View;
 import it.thalhammer.warhawkreborn.fragment.*;
 import it.thalhammer.warhawkreborn.model.UpdateInfo;
 
-import java.io.File;
-
-public class MainActivity extends AppCompatActivity implements LogFragment.OnFragmentInteractionListener,
-        HostFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, ServerListFragment.OnFragmentInteractionListener,
-        HostServerFragment.OnFragmentInteractionListener, UpdateFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener {
     private static final String LOG_TAG = MainActivity.class.getName();
     private DrawerLayout drawerLayout;
 
@@ -35,20 +27,23 @@ public class MainActivity extends AppCompatActivity implements LogFragment.OnFra
 
         // Fix for missing sax parser in upnp lib
         System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        if(actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 // set item as selected to persist highlight
                 menuItem.setChecked(true);
                 // close drawer when item is tapped
@@ -61,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements LogFragment.OnFra
                     case R.id.nav_server_list:
                         setFragment(new ServerListFragment());
                         break;
-                    /*case R.id.nav_host_server:
+                    case R.id.nav_host_server:
                         setFragment(new HostFragment());
-                        break;*/
+                        break;
                     case R.id.nav_app_log:
                         setFragment(new LogFragment());
                         break;
@@ -80,25 +75,30 @@ public class MainActivity extends AppCompatActivity implements LogFragment.OnFra
         checkVersion();
     }
 
+    private static class CheckVersionTask extends AsyncTask<Void, Void, UpdateInfo> {
+        private FragmentBase.OnFragmentInteractionListener parent;
+
+        CheckVersionTask(FragmentBase.OnFragmentInteractionListener parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        protected UpdateInfo doInBackground(Void... voids) {
+            UpdateInfo info = API.getUpdateInfo();
+            if(info.getVersion().equals(BuildConfig.VERSION_NAME)) return null;
+            return info;
+        }
+
+        @Override
+        protected void onPostExecute(final UpdateInfo v) {
+            super.onPostExecute(v);
+            if(v == null) return;
+            parent.setFragment(UpdateFragment.newInstance(v));
+        }
+    }
+
     private void checkVersion() {
-        AsyncTask<Void, Void, UpdateInfo> task = new AsyncTask<Void, Void, UpdateInfo>() {
-            @Override
-            protected UpdateInfo doInBackground(Void... voids) {
-                File targetFile = new File(MainActivity.this.getFilesDir(), "update.apk");
-                if(targetFile.exists()) targetFile.delete();
-
-                UpdateInfo info = API.getUpdateInfo();
-                if(info.getVersion().equals(BuildConfig.VERSION_NAME)) return null;
-                return info;
-            }
-
-            @Override
-            protected void onPostExecute(final UpdateInfo v) {
-                super.onPostExecute(v);
-                if(v == null) return;
-                setFragment(UpdateFragment.newInstance(v));
-            }
-        };
+        AsyncTask<Void, Void, UpdateInfo> task = new CheckVersionTask(this);
         task.execute();
     }
 
@@ -147,17 +147,10 @@ public class MainActivity extends AppCompatActivity implements LogFragment.OnFra
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if(item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

@@ -14,8 +14,7 @@ import it.thalhammer.warhawkreborn.R;
 
 import java.util.List;
 
-public class LogFragment extends Fragment implements AppLog.OnLogListener {
-    private OnFragmentInteractionListener mListener;
+public class LogFragment extends FragmentBase implements AppLog.OnLogListener {
 
     public LogFragment() {
         // Required empty public constructor
@@ -46,25 +45,6 @@ public class LogFragment extends Fragment implements AppLog.OnLogListener {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-        AppLog.getInstance().addListener(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-        AppLog.getInstance().removeListener(this);
-    }
-
-    @Override
     public void onLogUpdated(final List<String> entries) {
         View v = getView();
         if(v != null) v.post(new Runnable() {
@@ -79,9 +59,5 @@ public class LogFragment extends Fragment implements AppLog.OnLogListener {
                     ((TextView)view.findViewById(R.id.log_view)).setText(text);
             }
         });
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 }

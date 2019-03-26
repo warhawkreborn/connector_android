@@ -37,11 +37,17 @@ public class Util {
     }
 
     public static String downloadString(String uri) {
+        return downloadString(uri, false);
+    }
+
+    public static String downloadString(String uri, boolean forceipv4) {
+        HttpURLConnection connection = null;
         try
         {
             URL url = new URL(uri);
+            connection = (HttpURLConnection)url.openConnection();
             // Read all the text returned by the server
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String str;
             String res = "";
             while ((str = in.readLine()) != null)
@@ -51,7 +57,18 @@ public class Util {
             in.close();
             return res;
         } catch (MalformedURLException e) {
+            e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(connection != null) connection.disconnect();
+        }
+        return null;
+    }
+
+    public static Inet4Address resolveIPV4(String host) throws UnknownHostException {
+        for(InetAddress addr : InetAddress.getAllByName(host)) {
+            if(addr instanceof Inet4Address) return (Inet4Address)addr;
         }
         return null;
     }
@@ -75,10 +92,15 @@ public class Util {
     }
 
     public static String uploadString(String url, String data) {
+        return uploadString(url, data, false);
+    }
+
+    public static String uploadString(String uri, String data, boolean forceipv4) {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            connection = (HttpURLConnection)new URL(url).openConnection();
+            URL url = new URL(uri);
+            connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
 

@@ -8,22 +8,33 @@
     <string name="nav_start_playing">Start playing</string>
     <string name="nav_host_server">Host a server</string>
     <string name="nav_app_log">Debug log</string>
+    <string name="nav_server_list">Server list</string>
 
     <string name="fragment_log_log_output">Log output:</string>
 
     <string name="fragment_host_description">Hosting is not yet implemented.</string>
+    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and hosting a LAN-Mode game.s</string>
+    <string name="fragment_host_searching">Looking for active warhawk servers on the network:</string>
+
+    <string name="fragment_host_server_setting_up">Setting up server configuration for PS3 on IP %1$s</string>
+    <string name="fragment_host_server_upnp_failed">UPNP setup failed.\nPlease create a port forward in your router:\nExternal Port: 10029\nInternal Port 10029\nInternal IP: %1$s\nType: UDP</string>
+    <string name="fragment_host_server_waiting">Waiting for host to become available, sleeping 30 seconds.</string>
+    <string name="fragment_host_server_adding">Host is online, adding to registry</string>
+    <string name="fragment_host_server_api_request_failed">Failed to add host to registry :(\nAPI Request failed</string>
+    <string name="fragment_host_server_api_failed">Failed to add host to registry :(\n%1$s</string>
+    <string name="fragment_host_server_added">Added server %1$s to registry.\nIt should show up in the server list!</string>
+    <string name="fragment_host_server_searching_gateway">Searching for gateway...</string>
+    <string name="fragment_host_server_no_gateway">No gateway found :(</string>
+    <string name="fragment_host_server_using_gateway">Using gateway: %1$s(%2$s)</string>
+    <string name="fragment_host_server_no_active_gateway">No active gateway device found :(</string>
+    <string name="fragment_host_server_mapping_success">Mapping SUCCESSFUL.</string>
+    <string name="fragment_host_server_mapping_failed">Failed to create port mapping.</string>
 
     <string name="fragment_main_menu_reload">Reload</string>
     <string name="fragment_main_status_contentDescription">Service status</string>
-    <string name="fragment_host_searching">Looking for active warhawk servers on the network:</string>
-    <string name="nav_server_list">Server list</string>
-    <string name="fragment_server_list_currently_active_servers">Currently active servers:</string>
-    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and
-        hosting a LAN-Mode game.
-    </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_server_list_currently_active_servers">Currently active servers:</string>
+
     <string name="fragment_update_ignore">Ignore</string>
     <string name="fragment_update_continue">Update</string>
 </resources>
