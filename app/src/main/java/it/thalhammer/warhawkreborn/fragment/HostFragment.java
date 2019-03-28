@@ -39,19 +39,14 @@ public class HostFragment extends FragmentBase {
         @Override
         protected void onPostExecute(List<Pair<DiscoveryPacket, Inet4Address>> discoveryPackets) {
             super.onPostExecute(discoveryPackets);
-            parent.servers = discoveryPackets;
             final View view = parent.getView();
             if(view == null) return;
-
-            DiscoveryPacket[] array = new DiscoveryPacket[discoveryPackets.size()];
-            for(int i=0; i<discoveryPackets.size(); i++) array[i] = discoveryPackets.get(0).first;
-            ServerListListViewAdapter adapter = new ServerListListViewAdapter(parent.getActivity(), array);
-            ListView list = view.findViewById(R.id.fragment_host_list);
-            list.setAdapter(adapter);
-            view.findViewById(R.id.fragment_host_pb_search).setVisibility(View.GONE);
-            if(discoveryPackets.isEmpty())
-                view.findViewById(R.id.fragment_host_no_server_found).setVisibility(View.VISIBLE);
-            if(discoveryPackets.size() == 1) {
+            updateView(discoveryPackets);
+            if(discoveryPackets.isEmpty()) {
+                View v = view.findViewById(R.id.fragment_host_no_server_found);
+                if(v != null) v.setVisibility(View.VISIBLE);
+            }
+            if(discoveryPackets.size() == 1 && parent.mListener != null) {
                 // Only one server available
                 parent.mListener.setFragment(HostServerFragment.newInstance(discoveryPackets.get(0).first, discoveryPackets.get(0).second));
             }
@@ -59,18 +54,27 @@ public class HostFragment extends FragmentBase {
 
         @Override
         @SafeVarargs
-        protected final void onProgressUpdate(List<Pair<DiscoveryPacket, Inet4Address>>... discoveryPackets) {
-            super.onProgressUpdate(discoveryPackets);
-            if(discoveryPackets.length < 1) return;
-            parent.servers = discoveryPackets[0];
+        protected final void onProgressUpdate(List<Pair<DiscoveryPacket, Inet4Address>>... discoveryPacketsArray) {
+            super.onProgressUpdate(discoveryPacketsArray);
+            if(discoveryPacketsArray == null) return;
+            for(List<Pair<DiscoveryPacket, Inet4Address>> discoveryPackets: discoveryPacketsArray) {
+                updateView(discoveryPackets);
+            }
+        }
+
+        private void updateView(List<Pair<DiscoveryPacket, Inet4Address>> discoveryPackets) {
+            if(discoveryPackets == null || parent == null) return;
+            parent.servers = discoveryPackets;
             final View view = parent.getView();
             if(view == null) return;
-
-            DiscoveryPacket[] array = new DiscoveryPacket[discoveryPackets[0].size()];
-            for(int i=0; i<discoveryPackets[0].size(); i++) array[i] = discoveryPackets[0].get(0).first;
-            ServerListListViewAdapter adapter = new ServerListListViewAdapter(parent.getActivity(), array);
             ListView list = view.findViewById(R.id.fragment_host_list);
+            if(list == null) return;
+
+            DiscoveryPacket[] array = new DiscoveryPacket[discoveryPackets.size()];
+            for(int i=0; i<discoveryPackets.size(); i++) array[i] = discoveryPackets.get(0).first;
+            ServerListListViewAdapter adapter = new ServerListListViewAdapter(parent.getActivity(), array);
             list.setAdapter(adapter);
+            view.findViewById(R.id.fragment_host_pb_search).setVisibility(View.GONE);
         }
     }
     private MySearchTask task;

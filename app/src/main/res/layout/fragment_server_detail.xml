@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context=".fragment.ServerDetailFragment">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+                 android:layout_height="192dp"
+                 android:background="?attr/colorPrimary"
+                 android:theme="@style/AppTheme"
+                 android:orientation="vertical"
+                 android:gravity="bottom">
+
+        <ImageView
+                android:id="@+id/fragment_server_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/fragment_server_detail_name"
+                android:layout_gravity="bottom"
+                android:autoSizeMaxTextSize="100sp"
+                android:autoSizeMinTextSize="12dp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+        />
+    </FrameLayout>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/fragment_padding">
+
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="@string/fragment_server_detail_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_map"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="@string/fragment_server_detail_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_mode"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="@string/fragment_server_detail_maxplayers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_maxplayers"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="@string/fragment_server_detail_minplayers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_minplayers"/>
+        </TableRow>
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text="@string/fragment_server_detail_currentplayers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_currentplayers"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_timeeclapsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_timeeclapsed"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_timelimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_timelimit"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_startwait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_startwait"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_spawnwait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_spawnwait"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_roundsplayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_roundsplayed"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_pointlimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_pointlimit"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:text="@string/fragment_server_detail_currentpoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/fragment_server_detail_pointcurrent"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

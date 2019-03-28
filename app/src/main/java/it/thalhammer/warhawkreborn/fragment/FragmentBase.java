@@ -25,6 +25,7 @@ public class FragmentBase extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void setFragment(Fragment f);
+        void setFragment(Fragment f, boolean addtobackstack);
         void setDrawerVisible(boolean v);
     }
 }

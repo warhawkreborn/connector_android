@@ -83,7 +83,12 @@ public class ServerSearchResponderThread extends Thread {
     
     private void doUpdateServers() {
         appendLog("Downloading server list...");
-        serverList = API.getServerList();
+        for(int i=0; i<10; i++) {
+            ServerList list = API.getServerList();
+            if(list == null) continue;
+            serverList = list;
+            break;
+        }
         int n_online = 0;
         for(ServerList.Entry e : serverList) if(e.isOnline()) n_online++;
         appendLog("Found " + serverList.size() + " servers (" + n_online + " online)");

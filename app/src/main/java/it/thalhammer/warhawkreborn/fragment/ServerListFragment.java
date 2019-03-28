@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import it.thalhammer.warhawkreborn.R;
 import it.thalhammer.warhawkreborn.ServerListListViewAdapter;
@@ -36,7 +37,7 @@ public class ServerListFragment extends FragmentBase {
         ServerList slist = ServerSearchResponder.getInstance().getServerList();
         int active = 0;
         for(ServerList.Entry e : slist) if(e.isOnline()) active++;
-        DiscoveryPacket[] packets = new DiscoveryPacket[active];
+        final DiscoveryPacket[] packets = new DiscoveryPacket[active];
         for(ServerList.Entry e : slist) {
             if(!e.isOnline()) continue;
             packets[active-1] = new DiscoveryPacket(e.getResponse());
@@ -45,5 +46,11 @@ public class ServerListFragment extends FragmentBase {
         ServerListListViewAdapter adapter=new ServerListListViewAdapter(this.getActivity(), packets);
         ListView list = v.findViewById(R.id.fragment_server_list_list);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mListener.setFragment(ServerDetailFragment.newInstance(packets[position]));
+            }
+        });
     }
 }

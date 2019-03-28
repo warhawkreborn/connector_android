@@ -1,6 +1,5 @@
 package it.thalhammer.warhawkreborn;
 
-import android.app.Application;
 import android.util.Log;
 import it.thalhammer.warhawkreborn.model.ServerList;
 
@@ -42,10 +41,12 @@ public class ServerSearchResponder implements ServerSearchResponderThread.OnStat
     }
 
     public ServerList getServerList() {
+        if(worker == null) return new ServerList();
         return worker.getServerList();
     }
 
     public void updateServers() {
+        if(worker == null) return;
         worker.updateServers();
     }
 

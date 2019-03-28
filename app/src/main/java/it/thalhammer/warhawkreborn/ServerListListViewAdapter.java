@@ -39,7 +39,7 @@ public class ServerListListViewAdapter extends ArrayAdapter<DiscoveryPacket> {
         TextView subtitleText = (TextView) rowView.findViewById(R.id.serverlist_item_subtitle);
 
         titleText.setText(packets[position].getName());
-        subtitleText.setText(packets[position].getGameMode() + " " + packets[position].getMapName());
+        subtitleText.setText(packets[position].getGameMode() + " " + packets[position].getMapName() + " " + packets[position].getCurrentPlayers() + "/" + packets[position].getMaxPlayers());
 
         try {
             InputStream ims = context.getAssets().open("maps/" + packets[position].getMap() + "/minimap" + packets[position].getMapSize() + ".png");
@@ -47,6 +47,13 @@ public class ServerListListViewAdapter extends ArrayAdapter<DiscoveryPacket> {
         }
         catch(IOException ex) {
             Log.e(LOG_TAG, "Image for " + packets[position].getMap() + " " + packets[position].getMapSize() + " not found", ex);
+            try {
+                InputStream ims = context.getAssets().open("maps/" + packets[position].getMap() + "/minimap0.png");
+                imageView.setImageDrawable(Drawable.createFromStream(ims, null));
+            }
+            catch(IOException e) {
+                Log.e(LOG_TAG, "Image for " + packets[position].getMap() + " 0 not found", ex);
+            }
         }
 
         return rowView;

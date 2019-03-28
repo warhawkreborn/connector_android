@@ -1,6 +1,5 @@
 package it.thalhammer.warhawkreborn;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import it.thalhammer.warhawkreborn.fragment.*;
-import it.thalhammer.warhawkreborn.model.UpdateInfo;
 
 public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener {
     private static final String LOG_TAG = MainActivity.class.getName();
@@ -71,40 +69,16 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
 
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_copyright_message));
-
-        checkVersion();
-    }
-
-    private static class CheckVersionTask extends AsyncTask<Void, Void, UpdateInfo> {
-        private FragmentBase.OnFragmentInteractionListener parent;
-
-        CheckVersionTask(FragmentBase.OnFragmentInteractionListener parent) {
-            this.parent = parent;
-        }
-
-        @Override
-        protected UpdateInfo doInBackground(Void... voids) {
-            UpdateInfo info = API.getUpdateInfo();
-            if(info.getVersion().equals(BuildConfig.VERSION_NAME)) return null;
-            return info;
-        }
-
-        @Override
-        protected void onPostExecute(final UpdateInfo v) {
-            super.onPostExecute(v);
-            if(v == null) return;
-            parent.setFragment(UpdateFragment.newInstance(v));
-        }
-    }
-
-    private void checkVersion() {
-        AsyncTask<Void, Void, UpdateInfo> task = new CheckVersionTask(this);
-        task.execute();
     }
 
     public void setFragment(Fragment f) {
+        setFragment(f, false);
+    }
+
+    public void setFragment(Fragment f, boolean addtobackstack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, f);
+        if(addtobackstack) transaction.addToBackStack(null);
         transaction.commit();
     }
 

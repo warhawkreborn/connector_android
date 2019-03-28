@@ -13,7 +13,7 @@
     <string name="fragment_log_log_output">Log output:</string>
 
     <string name="fragment_host_description">Hosting is not yet implemented.</string>
-    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and hosting a LAN-Mode game.s</string>
+    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and hosting a LAN-Mode game.</string>
     <string name="fragment_host_searching">Looking for active warhawk servers on the network:</string>
 
     <string name="fragment_host_server_setting_up">Setting up server configuration for PS3 on IP %1$s</string>
@@ -37,4 +37,17 @@
 
     <string name="fragment_update_ignore">Ignore</string>
     <string name="fragment_update_continue">Update</string>
+
+    <string name="fragment_server_detail_mode">Mode:</string>
+    <string name="fragment_server_detail_map">Map:</string>
+    <string name="fragment_server_detail_maxplayers">Maximum players:</string>
+    <string name="fragment_server_detail_minplayers">Minimum players:</string>
+    <string name="fragment_server_detail_currentplayers">Current players:</string>
+    <string name="fragment_server_detail_timelimit">Time limit:</string>
+    <string name="fragment_server_detail_timeeclapsed">Time eclapsed:</string>
+    <string name="fragment_server_detail_startwait">Start waittime:</string>
+    <string name="fragment_server_detail_spawnwait">Spawn waittime:</string>
+    <string name="fragment_server_detail_roundsplayed">Rounds played:</string>
+    <string name="fragment_server_detail_pointlimit">Point limit:</string>
+    <string name="fragment_server_detail_currentpoints">Current points:</string>
 </resources>
