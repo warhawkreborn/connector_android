@@ -1,11 +1,14 @@
 package it.thalhammer.warhawkreborn.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,7 +141,9 @@ public class HostServerFragment extends FragmentBase {
 
             publishProgress(parent.getString(R.string.fragment_host_server_adding));
 
-            AddHostResponse resp = API.addHost(true);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(parent.getContext());
+            String fcmId = prefs.getString(parent.getString(R.string.pref_fcm_id), null);
+            AddHostResponse resp = API.addHost(true, fcmId);
             if(resp == null) {
                 publishProgress(parent.getString(R.string.fragment_host_server_api_request_failed));
                 return null;
@@ -148,6 +153,7 @@ public class HostServerFragment extends FragmentBase {
                 return null;
             }
             publishProgress(parent.getString(R.string.fragment_host_server_added, resp.getInfo().getName()));
+            ServerSearchResponder.getInstance().updateServers();
             return null;
         }
 

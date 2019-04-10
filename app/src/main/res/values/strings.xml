@@ -50,4 +50,9 @@
     <string name="fragment_server_detail_roundsplayed">Rounds played:</string>
     <string name="fragment_server_detail_pointlimit">Point limit:</string>
     <string name="fragment_server_detail_currentpoints">Current points:</string>
+    <string name="fragment_server_list_menu_reload">Reload</string>
+    <string name="fragment_host_retry">Retry</string>
+
+
+    <string name="pref_fcm_id">fcm_id</string>
 </resources>

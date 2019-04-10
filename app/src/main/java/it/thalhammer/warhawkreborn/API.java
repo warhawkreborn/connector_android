@@ -55,9 +55,10 @@ public class API {
         return getObject("server/checkForwarding", CheckForwardingResponse.class, true);
     }
 
-    public static AddHostResponse addHost(boolean persistent) {
+    public static AddHostResponse addHost(boolean persistent, String fcmid) {
         AddHostRequest req = new AddHostRequest();
         req.setPersistent(persistent);
+        if(fcmid != null) req.setFcmId(fcmid);
         return postObject("server/", req, AddHostResponse.class, true);
     }
 

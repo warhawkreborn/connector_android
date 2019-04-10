@@ -12,4 +12,7 @@ public class AddHostRequest {
     // False server will get removed once offline
     @SerializedName("persistent")
     private boolean persistent;
+    // FCM Token used for notifications
+    @SerializedName("fcm_id")
+    private String fcmId;
 }

@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import it.thalhammer.warhawkreborn.R;
 import it.thalhammer.warhawkreborn.SearchServerTask;
 import it.thalhammer.warhawkreborn.ServerListListViewAdapter;
@@ -37,11 +37,21 @@ public class HostFragment extends FragmentBase {
         }
 
         @Override
+        protected  void onPreExecute()
+        {
+            final View view = parent.getView();
+            if(view == null) return;
+            view.findViewById(R.id.fragment_host_pb_search).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_host_no_server_found).setVisibility(View.GONE);
+        }
+
+        @Override
         protected void onPostExecute(List<Pair<DiscoveryPacket, Inet4Address>> discoveryPackets) {
             super.onPostExecute(discoveryPackets);
             final View view = parent.getView();
             if(view == null) return;
             updateView(discoveryPackets);
+            view.findViewById(R.id.fragment_host_pb_search).setVisibility(View.GONE);
             if(discoveryPackets.isEmpty()) {
                 View v = view.findViewById(R.id.fragment_host_no_server_found);
                 if(v != null) v.setVisibility(View.VISIBLE);
@@ -74,14 +84,19 @@ public class HostFragment extends FragmentBase {
             for(int i=0; i<discoveryPackets.size(); i++) array[i] = discoveryPackets.get(0).first;
             ServerListListViewAdapter adapter = new ServerListListViewAdapter(parent.getActivity(), array);
             list.setAdapter(adapter);
-            view.findViewById(R.id.fragment_host_pb_search).setVisibility(View.GONE);
         }
     }
     private MySearchTask task;
 
     @Override
     public void onViewCreated(@NonNull View v, Bundle saveState) {
-
+        ((Button)v.findViewById(R.id.fragment_host_retry)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task = new MySearchTask(HostFragment.this);
+                task.execute();
+            }
+        });
     }
 
     @Override

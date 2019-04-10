@@ -1,6 +1,8 @@
 package it.thalhammer.warhawkreborn.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -31,7 +33,7 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstance) {
+    public void onViewCreated(View view, Bundle savedInstance) {
         updateDisplay();
     }
 
@@ -49,7 +51,7 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_main_menu, menu);  // Use filter.xml from step 1
+        inflater.inflate(R.menu.fragment_main_menu, menu);
     }
 
     @Override
@@ -84,12 +86,25 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
         view.post(new Runnable() {
             @Override
             public void run() {
+                Activity a = getActivity();
+                if(a == null) return;
+                final ConnectivityManager manager = (ConnectivityManager)a.getSystemService(Context.CONNECTIVITY_SERVICE);
+                final android.net.NetworkInfo connection = manager == null ? null : manager.getActiveNetworkInfo();
+                ServerSearchResponder responder = ServerSearchResponder.getInstance();
+                if(responder == null) return;
+                String statusText = responder.getStatusText();
                 int status = R.drawable.ic_status_failed;
-                if(ServerSearchResponder.getInstance().isActive()) {
+                if(responder.isActive()) {
                     status = R.drawable.ic_status_ok;
+                    if(connection != null && connection.getType() != ConnectivityManager.TYPE_WIFI && connection.getType() != ConnectivityManager.TYPE_ETHERNET) {
+                        status = R.drawable.ic_status_failed;
+                        statusText += "\nLooks like you are not connected to wifi. Make sure WIFI is turned on and connected.";
+                    }
                 }
-                ((ImageView)view.findViewById(R.id.fragment_main_status_image)).setImageDrawable(ContextCompat.getDrawable(getActivity(), status));
-                ((TextView)view.findViewById(R.id.fragment_main_status_text)).setText(ServerSearchResponder.getInstance().getStatusText());
+                ImageView iv = ((ImageView)view.findViewById(R.id.fragment_main_status_image));
+                if(iv != null) iv.setImageDrawable(ContextCompat.getDrawable(a, status));
+                TextView tv = ((TextView)view.findViewById(R.id.fragment_main_status_text));
+                if(tv != null) tv.setText(statusText);
             }
         });
     }
