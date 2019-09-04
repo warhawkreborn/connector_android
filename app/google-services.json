@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "1074477056354",
+    "firebase_url": "https://warhawk-reborn.firebaseio.com",
+    "project_id": "warhawk-reborn",
+    "storage_bucket": "warhawk-reborn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074477056354:android:4e4161e69dffdc6e",
+        "android_client_info": {
+          "package_name": "it.thalhammer.warhawkreborn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAObp2kbEn90zg4FPIDCWljc-dyDorjnJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074477056354-skr2uljcchluk7igs0eqltnjvf7k0f6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
