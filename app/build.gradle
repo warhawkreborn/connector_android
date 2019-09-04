@@ -3,15 +3,14 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 
-
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "it.thalhammer.warhawkreborn"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1201
-        versionName "1.2.1"
+        versionCode 1204
+        versionName "1.2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {

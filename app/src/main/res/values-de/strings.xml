@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Warhawk Reborn</string>
+    <string name="warhawk_logo">Warhawk logo</string>
+    <string name="app_copyright_message">Ⓒ2019, Dominik Thalhammer, https://thalhammer.it</string>
+    <string name="main_update_available">Update verfügbar</string>
+    <string name="nav_start_playing">Spielen</string>
+    <string name="nav_host_server">Server erstellen</string>
+    <string name="nav_app_log">Debug Protokoll</string>
+    <string name="nav_server_list">Server Liste</string>
+    <string name="fragment_log_log_output">Log ausgabe:</string>
+    <string name="fragment_host_description">Hosting ist noch nicht implementiert.</string>
+    <string name="fragment_host_no_server_found">Es konnten keine aktiven Server gefunden werden. Stelle sicher deine
+        PS3 ist eingeschaltet und stellt ein Spiel im LAN-Modus bereit.
+    </string>
+    <string name="fragment_host_searching">Es wird nach aktiven Warhawk servern im Netzwerk gesucht:</string>
+    <string name="fragment_host_server_setting_up">Setze eine Serverkonfiguration für die PS3 mit der IP %1$s auf</string>
+    <string name="fragment_host_server_upnp_failed">UPNP Setup fehlgeschlagen. Bitte erzeuge eine Portweiterleitung in
+        deinem Router:\\nExternal Port: 10029\\nInternal Port: 10029\\nInternal IP: %1$s\\nType: UDP
+    </string>
+    <string name="fragment_host_server_waiting">Warte 30 Sekunden darauf, dass der Host online kommt.</string>
+    <string name="fragment_host_server_adding">Host verfügbar, füge Ihn zum Verzeichnis hinzu</string>
+    <string name="fragment_host_server_api_request_failed">Konnte den Host nicht zum Verzeichnis hinzufügen :( API
+        Anfrage fehlgeschlagen
+    </string>
+    <string name="fragment_host_server_api_failed">Konnte den Host nicht zum Verzeichnis hinzufügen :( %1$s</string>
+    <string name="fragment_host_server_added">Server %1$s wurde zum Verzeichnis hinzugefügt. Er sollte nun in der
+        Serverliste auftauchen!
+    </string>
+    <string name="fragment_host_server_searching_gateway">Suche nach Netzwerk gateway...</string>
+    <string name="fragment_host_server_no_gateway">Konnte das Gateway nicht finden :(</string>
+    <string name="fragment_host_server_using_gateway">Benutze Gateway: %1$s(%2$s)</string>
+    <string name="fragment_host_server_no_active_gateway">Kein aktives Gateway gefunden :(</string>
+    <string name="fragment_host_server_mapping_success">Mapping erfolgreich erstellt.</string>
+</resources>

@@ -94,7 +94,7 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
                 if(responder == null) return;
                 String statusText = responder.getStatusText();
                 int status = R.drawable.ic_status_failed;
-                if(responder.isActive()) {
+                if(responder.isOK()) {
                     status = R.drawable.ic_status_ok;
                     if(connection != null && connection.getType() != ConnectivityManager.TYPE_WIFI && connection.getType() != ConnectivityManager.TYPE_ETHERNET) {
                         status = R.drawable.ic_status_failed;

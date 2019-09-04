@@ -36,8 +36,8 @@ public class ServerSearchResponder implements ServerSearchResponderThread.OnStat
         }
     }
 
-    public boolean isActive() {
-        return worker != null && worker.isAlive();
+    public boolean isOK() {
+        return worker != null && worker.isOK();
     }
 
     public ServerList getServerList() {

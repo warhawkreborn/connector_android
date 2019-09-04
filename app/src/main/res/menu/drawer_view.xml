@@ -18,5 +18,9 @@
                 android:id="@+id/nav_app_log"
                 android:icon="@drawable/ic_error_black_24dp"
                 android:title="@string/nav_app_log" />
+        <item
+                android:id="@+id/nav_privacy_policy"
+                android:icon="@drawable/ic_info"
+                android:title="@string/nav_privacy_policy" />
     </group>
 </menu>

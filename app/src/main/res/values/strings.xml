@@ -13,16 +13,22 @@
     <string name="fragment_log_log_output">Log output:</string>
 
     <string name="fragment_host_description">Hosting is not yet implemented.</string>
-    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and hosting a LAN-Mode game.</string>
+    <string name="fragment_host_no_server_found">Could not find any active servers. Make sure your PS3 is turned on and
+        hosting a LAN-Mode game.
+    </string>
     <string name="fragment_host_searching">Looking for active warhawk servers on the network:</string>
 
     <string name="fragment_host_server_setting_up">Setting up server configuration for PS3 on IP %1$s</string>
-    <string name="fragment_host_server_upnp_failed">UPNP setup failed.\nPlease create a port forward in your router:\nExternal Port: 10029\nInternal Port 10029\nInternal IP: %1$s\nType: UDP</string>
+    <string name="fragment_host_server_upnp_failed">UPNP setup failed.\nPlease create a port forward in your
+        router:\nExternal Port: 10029\nInternal Port 10029\nInternal IP: %1$s\nType: UDP
+    </string>
     <string name="fragment_host_server_waiting">Waiting for host to become available, sleeping 30 seconds.</string>
     <string name="fragment_host_server_adding">Host is online, adding to registry</string>
-    <string name="fragment_host_server_api_request_failed">Failed to add host to registry :(\nAPI Request failed</string>
+    <string name="fragment_host_server_api_request_failed">Failed to add host to registry :(\nAPI Request failed
+    </string>
     <string name="fragment_host_server_api_failed">Failed to add host to registry :(\n%1$s</string>
-    <string name="fragment_host_server_added">Added server %1$s to registry.\nIt should show up in the server list!</string>
+    <string name="fragment_host_server_added">Added server %1$s to registry.\nIt should show up in the server list!
+    </string>
     <string name="fragment_host_server_searching_gateway">Searching for gateway...</string>
     <string name="fragment_host_server_no_gateway">No gateway found :(</string>
     <string name="fragment_host_server_using_gateway">Using gateway: %1$s(%2$s)</string>
@@ -55,4 +61,17 @@
 
 
     <string name="pref_fcm_id">fcm_id</string>
+    <string name="nav_privacy_policy">Privacy Policy</string>
+
+    <string name="responder_thread_local_ip">"Local address: %1$s"</string>
+    <string name="responder_thread_socket_not_bound">Serversocket is not bound :(</string>
+    <string name="responder_thread_thread_crashed">Responderthread crashed:</string>
+    <string name="responder_exited">Responder exited</string>
+    <string name="responder_downloading_list">Downloading server list...</string>
+    <string name="responder_could_not_download">Could not download server list.\nMake sure you have an active internet connection.</string>
+    <string name="responder_found_n_servers">Found %1$d servers</string>
+    <string name="responder_broadcasting_n_servers">Broadcasting %1$d servers\nGo to your PS3 and search for local games!</string>
+    <string name="responder_ok_no_servers">Startup ok, but no servers are online :(</string>
+    <string name="responder_received_server_request">Received server request from %1$s</string>
+    <string name="responder_no_serverlist">No serverlist available!!!\n</string>
 </resources>

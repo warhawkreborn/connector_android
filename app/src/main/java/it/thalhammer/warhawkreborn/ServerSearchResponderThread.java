@@ -1,6 +1,5 @@
 package it.thalhammer.warhawkreborn;
 
-import android.net.ConnectivityManager;
 import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import it.thalhammer.warhawkreborn.model.ServerList;
@@ -35,11 +34,11 @@ public class ServerSearchResponderThread extends Thread {
 
             List<InetAddress> localIps = Util.getLocalIpAddress();
             for (InetAddress addr : localIps) {
-                appendLog("Local address; " + addr.getHostAddress());
+                appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_local_ip, addr.getHostAddress()));
             }
 
             if (!serverSocket.isBound()) {
-                appendLog("Serversocket is not bound :(");
+                appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_socket_not_bound));
             }
 
             if (handler != null) handler.onServerStart();
@@ -76,20 +75,20 @@ public class ServerSearchResponderThread extends Thread {
             }
         } catch (SocketException e) {
             if(!shouldExit) {
-                appendLog("Responderthread crashed:");
+                appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_thread_crashed));
                 appendLog(e.getMessage());
                 appendLog(e.toString());
                 Crashlytics.logException(e);
             }
         } catch (IOException e) {
-            appendLog("Responderthread crashed:");
+            appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_thread_crashed));
             appendLog(e.getMessage());
             appendLog(e.toString());
             Crashlytics.logException(e);
         } finally {
             if (serverSocket != null) serverSocket.close();
         }
-        appendLog("Responder exited");
+        appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_exited));
         if (handler != null) handler.onServerStop();
     }
 
@@ -100,21 +99,28 @@ public class ServerSearchResponderThread extends Thread {
         if (serverSocket != null) serverSocket.close();
     }
 
+    public boolean isOK() {
+        return isAlive() && serverList != null && !serverList.isEmpty();
+    }
+
     private void doUpdateServers() {
-        appendLog("Downloading server list...");
+        appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_downloading_list));
         for (int i = 0; i < 10; i++) {
             ServerList list = API.getServerList();
             if (list == null) continue;
             serverList = list;
             break;
         }
-        int n_online = 0;
-        for (ServerList.Entry e : serverList) if (e != null && e.isOnline()) n_online++;
-        appendLog("Found " + serverList.size() + " servers (" + n_online + " online)");
-        if (n_online > 0) {
-            statusText = "Broadcasting " + serverList.size() + " servers (" + n_online + " online)\nGo to your PS3 and search for local games!";
+        if(serverList == null) {
+            statusText = MainActivity.getAppContext().getResources().getString(R.string.responder_could_not_download);
+            appendLog(statusText);
+            return;
+        }
+        appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_found_n_servers, serverList.size()));
+        if (serverList.size() > 0) {
+            statusText = MainActivity.getAppContext().getResources().getString(R.string.responder_broadcasting_n_servers, serverList.size());
         } else {
-            statusText = "Startup ok, but no servers are online :(";
+            statusText = MainActivity.getAppContext().getResources().getString(R.string.responder_ok_no_servers);
         }
         if (handler != null) handler.onServerListUpdated(serverList);
     }
@@ -136,7 +142,11 @@ public class ServerSearchResponderThread extends Thread {
     private void handlePacket(byte[] data, int len, InetAddress src) {
         if (len > 3) {
             if (data[0] == -61 && data[1] == -127) {
-                appendLog("Received server request from " + src.toString());
+                appendLog(MainActivity.getAppContext().getString(R.string.responder_received_server_request, src.getHostAddress()));
+                if(serverList == null) {
+                    appendLog(MainActivity.getAppContext().getString(R.string.responder_no_serverlist));
+                    return;
+                }
                 for (ServerList.Entry e : serverList) {
                     if (!e.isOnline()) continue;
                     byte[] frame = Util.hexStringToByteArray(e.getResponse());

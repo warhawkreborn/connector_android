@@ -37,17 +37,20 @@ public class API {
     static ServerList getServerList() {
         ServerList result = getObject("server/", ServerList.class, false);
         if(result == null) return null;
+        ServerList checked = new ServerList();
         for(ServerList.Entry e : result) {
             if(!e.isOnline()) continue;
+            if(e.getResponse().length() != 744) continue;
             try {
                 DiscoveryPacket packet = new DiscoveryPacket(e.getResponse());
                 packet.setIP(Util.resolveIPV4(e.getHostname()));
                 e.setResponse(packet.getHexString());
+                checked.add(e);
             } catch (UnknownHostException ex) {
                 Log.e(LOG_TAG, "Failed to download server list", ex);
             }
         }
-        return result;
+        return checked;
     }
 
     public static CheckForwardingResponse checkForwarding() {

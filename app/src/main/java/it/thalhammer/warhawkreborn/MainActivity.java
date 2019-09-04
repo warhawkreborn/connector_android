@@ -1,6 +1,9 @@
 package it.thalhammer.warhawkreborn;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,9 +22,14 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
     private static final String LOG_TAG = MainActivity.class.getName();
     private DrawerLayout drawerLayout;
 
+    private static Context appContext;
+
+    public static Context getAppContext() { return appContext; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appContext = this.getApplicationContext();
 
         // Fix for missing sax parser in upnp lib
         System.setProperty("org.xml.sax.driver","org.xmlpull.v1.sax2.Driver");
@@ -60,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
                     case R.id.nav_app_log:
                         setFragment(new LogFragment());
                         break;
+                    case R.id.nav_privacy_policy:
+                        setFragment(new PrivacyPolicyFragment());
+                        break;
+
                 }
                 return true;
             }
@@ -69,6 +81,13 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
 
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_copyright_message));
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(prefs != null) {
+            String fcmId = prefs.getString(getString(R.string.pref_fcm_id), null);
+            if(fcmId != null)
+                Log.i(LOG_TAG, "FCMID: " + fcmId);
+        }
     }
 
     public void setFragment(Fragment f) {
