@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="@dimen/fragment_padding"
-              android:orientation="vertical"
-              tools:context=".fragment.LogFragment">
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="@string/fragment_log_log_output"/>
-    <TextView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/log_view"
-            android:scrollbars="vertical"
-            android:gravity="bottom"/>
-</LinearLayout>
+            android:layout_height="match_parent"
+            tools:context=".fragment.LogFragment">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="@dimen/fragment_padding">#
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:text="@string/fragment_log_log_output"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/log_view"
+                android:scrollbars="vertical"
+                android:gravity="bottom"/>
+    </LinearLayout>
+</ScrollView>

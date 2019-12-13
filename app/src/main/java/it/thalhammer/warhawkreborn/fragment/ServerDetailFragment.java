@@ -59,7 +59,7 @@ public class ServerDetailFragment extends FragmentBase {
         ((TextView)v.findViewById(R.id.fragment_server_detail_maxplayers)).setText(String.valueOf(mPacket.getMaxPlayers()));
         ((TextView)v.findViewById(R.id.fragment_server_detail_minplayers)).setText(String.valueOf(mPacket.getMinPlayers()));
         ((TextView)v.findViewById(R.id.fragment_server_detail_currentplayers)).setText(String.valueOf(mPacket.getCurrentPlayers()));
-        ((TextView)v.findViewById(R.id.fragment_server_detail_timeeclapsed)).setText(String.valueOf(mPacket.getTimeEclapsed()));
+        ((TextView)v.findViewById(R.id.fragment_server_detail_timeelapsed)).setText(String.valueOf(mPacket.getTimeElapsed()));
         ((TextView)v.findViewById(R.id.fragment_server_detail_timelimit)).setText(String.valueOf(mPacket.getTimeLimit()));
         ((TextView)v.findViewById(R.id.fragment_server_detail_startwait)).setText(String.valueOf(mPacket.getStartWaitTime()));
         ((TextView)v.findViewById(R.id.fragment_server_detail_spawnwait)).setText(String.valueOf(mPacket.getSpawnWaitTime()));

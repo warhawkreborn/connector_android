@@ -32,4 +32,40 @@
     <string name="fragment_host_server_using_gateway">Benutze Gateway: %1$s(%2$s)</string>
     <string name="fragment_host_server_no_active_gateway">Kein aktives Gateway gefunden :(</string>
     <string name="fragment_host_server_mapping_success">Mapping erfolgreich erstellt.</string>
+    <string name="fragment_host_server_mapping_failed">Port mapping konnte nicht erstellt werden.</string>
+    <string name="fragment_main_menu_reload">Neu laden</string>
+    <string name="fragment_main_status_contentDescription">Dienst status</string>
+    <string name="fragment_server_list_currently_active_servers">Aktuell aktive Server:</string>
+    <string name="fragment_server_detail_mode">Modus:</string>
+    <string name="fragment_server_detail_map">Karte:</string>
+    <string name="fragment_server_detail_maxplayers">Maximale Spieler:</string>
+    <string name="fragment_server_detail_minplayers">Minimale Spieler:</string>
+    <string name="fragment_server_detail_currentplayers">Aktuelle Spieler:</string>
+    <string name="fragment_server_detail_timelimit">Zeit limit:</string>
+    <string name="fragment_server_detail_timeelapsed">Vergangene Zeit:</string>
+    <string name="fragment_server_detail_startwait">Start Wartezeit:</string>
+    <string name="fragment_server_detail_spawnwait">Spawn Wartezeit:</string>
+    <string name="fragment_server_detail_roundsplayed">Gespielte Runden:</string>
+    <string name="fragment_server_detail_pointlimit">Punktelimit:</string>
+    <string name="fragment_server_detail_currentpoints">Aktuelle Punkte:</string>
+    <string name="fragment_server_list_menu_reload">Neu laden</string>
+    <string name="fragment_host_retry">Erneut versuchen</string>
+    <string name="fragment_main_no_wifi">Scheinbar bist du nicht mit einem WLAN Netzwerk verbunden. Stelle sicher, dass
+        dein WLAN eingeschaltet und verbunden ist.
+    </string>
+    <string name="pref_fcm_id">fcm_id</string>
+    <string name="nav_privacy_policy">Datenschutzerklärung</string>
+    <string name="responder_thread_local_ip">Lokale IP Adresse: %1$s</string>
+    <string name="responder_thread_socket_not_bound">Serversocket konnte nicht gebunden werden :(</string>
+    <string name="responder_thread_thread_crashed">Der Antwortthread ist abgesturzt:</string>
+    <string name="responder_exited">Antwortthread beendet</string>
+    <string name="responder_downloading_list">Serverliste wird heruntergeladen...</string>
+    <string name="responder_could_not_download">Konnte keine Serverliste laden. Stelle sicher, dass du eine aktive
+        Internetverbindung hast.
+    </string>
+    <string name="responder_found_n_servers">%1$d Server gefunden</string>
+    <string name="responder_broadcasting_n_servers">Stelle %1$d Server bereit</string>
+    <string name="responder_ok_no_servers">Start erfolgreich, aber es sind keine Server online :(</string>
+    <string name="responder_received_server_request">Server anfrage von %1$s empfangen</string>
+    <string name="responder_no_serverlist">Keine Serverliste verfügbar!!!</string>
 </resources>

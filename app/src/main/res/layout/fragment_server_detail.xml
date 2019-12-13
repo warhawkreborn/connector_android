@@ -7,12 +7,11 @@
               android:orientation="vertical"
               tools:context=".fragment.ServerDetailFragment">
     <FrameLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:background="@color/colorPrimary"
-                 android:theme="@style/AppTheme"
-                 android:orientation="vertical"
-                 android:gravity="bottom">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:gravity="bottom">
 
         <ImageView
                 android:id="@+id/fragment_server_detail_image"
@@ -82,11 +81,11 @@
         </TableRow>
         <TableRow>
             <TextView
-                    android:text="@string/fragment_server_detail_timeeclapsed"
+                    android:text="@string/fragment_server_detail_timeelapsed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/fragment_server_detail_timeeclapsed"/>
+                      android:id="@+id/fragment_server_detail_timeelapsed"/>
         </TableRow>
         <TableRow>
             <TextView

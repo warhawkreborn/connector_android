@@ -41,16 +41,13 @@
 
     <string name="fragment_server_list_currently_active_servers">Currently active servers:</string>
 
-    <string name="fragment_update_ignore">Ignore</string>
-    <string name="fragment_update_continue">Update</string>
-
     <string name="fragment_server_detail_mode">Mode:</string>
     <string name="fragment_server_detail_map">Map:</string>
     <string name="fragment_server_detail_maxplayers">Maximum players:</string>
     <string name="fragment_server_detail_minplayers">Minimum players:</string>
     <string name="fragment_server_detail_currentplayers">Current players:</string>
     <string name="fragment_server_detail_timelimit">Time limit:</string>
-    <string name="fragment_server_detail_timeeclapsed">Time eclapsed:</string>
+    <string name="fragment_server_detail_timeelapsed">Time elapsed:</string>
     <string name="fragment_server_detail_startwait">Start waittime:</string>
     <string name="fragment_server_detail_spawnwait">Spawn waittime:</string>
     <string name="fragment_server_detail_roundsplayed">Rounds played:</string>
@@ -58,6 +55,8 @@
     <string name="fragment_server_detail_currentpoints">Current points:</string>
     <string name="fragment_server_list_menu_reload">Reload</string>
     <string name="fragment_host_retry">Retry</string>
+
+    <string name="fragment_main_no_wifi">Looks like you are not connected to wifi. Make sure WIFI is turned on and connected.</string>
 
 
     <string name="pref_fcm_id">fcm_id</string>

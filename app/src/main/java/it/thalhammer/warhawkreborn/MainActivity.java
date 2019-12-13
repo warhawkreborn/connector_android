@@ -1,7 +1,11 @@
 package it.thalhammer.warhawkreborn;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -11,23 +15,63 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import it.thalhammer.warhawkreborn.fragment.*;
+import it.thalhammer.warhawkreborn.model.UpdateInfo;
 
 public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener {
     private static final String LOG_TAG = MainActivity.class.getName();
+
+    private static final String SIDELOAD_APK_NAME = "com.android.packageinstaller";
     private DrawerLayout drawerLayout;
 
     private static Context appContext;
 
     public static Context getAppContext() { return appContext; }
 
+    class UpdateTask extends AsyncTask<Void, Void, UpdateInfo> {
+        @Override
+        protected UpdateInfo doInBackground(Void... voids) {
+            try {
+                return API.getUpdateInfo();
+            } catch(Exception e) {
+                Log.e(LOG_TAG, "Failed to check for updates:", e);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final UpdateInfo result) {
+            if(result == null) return;
+            if(result.getVersionCode() <= BuildConfig.VERSION_CODE) return;
+            new AlertDialog.Builder(MainActivity.this)
+                    .setMessage(result.getChanges())
+                    .setTitle("New version " + result.getVersion() + " is available")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getUri()));
+                            startActivity(browserIntent);
+                        }
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setIcon(android.R.drawable.ic_menu_upload)
+                    .show();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
         super.onCreate(savedInstanceState);
         appContext = this.getApplicationContext();
 
@@ -76,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
                 return true;
             }
         });
+        navigationView.setCheckedItem(R.id.nav_start_playing);
+
 
         setFragment(new MainFragment());
 
@@ -87,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
             String fcmId = prefs.getString(getString(R.string.pref_fcm_id), null);
             if(fcmId != null)
                 Log.i(LOG_TAG, "FCMID: " + fcmId);
+        }
+        final String installer = getPackageManager().getInstallerPackageName(getPackageName());
+        if(installer == null || SIDELOAD_APK_NAME.equals(installer)) {
+            new UpdateTask().execute();
         }
     }
 

@@ -98,7 +98,7 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
                     status = R.drawable.ic_status_ok;
                     if(connection != null && connection.getType() != ConnectivityManager.TYPE_WIFI && connection.getType() != ConnectivityManager.TYPE_ETHERNET) {
                         status = R.drawable.ic_status_failed;
-                        statusText += "\nLooks like you are not connected to wifi. Make sure WIFI is turned on and connected.";
+                        statusText += "\n" + getContext().getString(R.string.fragment_main_no_wifi);
                     }
                 }
                 ImageView iv = ((ImageView)view.findViewById(R.id.fragment_main_status_image));

@@ -88,7 +88,7 @@ public class DiscoveryPacket {
         return data[280];
     }
 
-    public int getTimeEclapsed() {
+    public int getTimeElapsed() {
         if(data == null) return 0;
         return data[251];
     }

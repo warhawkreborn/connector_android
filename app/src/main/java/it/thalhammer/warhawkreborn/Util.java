@@ -1,6 +1,7 @@
 package it.thalhammer.warhawkreborn;
 
 import android.arch.core.util.Function;
+import android.content.Context;
 import android.support.v4.util.Consumer;
 import android.util.Log;
 
@@ -156,5 +157,35 @@ public class Util {
                 os.close();
             } catch(IOException e) {}
         }
+    }
+
+    public static String readAssetFile(String fileName, Context context) {
+        StringBuilder returnString = new StringBuilder();
+        InputStream fIn = null;
+        InputStreamReader isr = null;
+        BufferedReader input = null;
+        try {
+            fIn = context.getResources().getAssets().open(fileName, Context.MODE_PRIVATE);
+            isr = new InputStreamReader(fIn);
+            input = new BufferedReader(isr);
+            String line = "";
+            while ((line = input.readLine()) != null) {
+                returnString.append(line);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        } finally {
+            try {
+                if (isr != null)
+                    isr.close();
+                if (fIn != null)
+                    fIn.close();
+                if (input != null)
+                    input.close();
+            } catch (Exception e2) {
+                e2.getMessage();
+            }
+        }
+        return returnString.toString();
     }
 }
