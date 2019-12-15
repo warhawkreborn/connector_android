@@ -58,7 +58,7 @@ public class HostFragment extends FragmentBase {
             }
             if(discoveryPackets.size() == 1 && parent.mListener != null) {
                 // Only one server available
-                parent.mListener.setFragment(HostServerFragment.newInstance(discoveryPackets.get(0).first, discoveryPackets.get(0).second));
+                parent.mListener.setFragment(HostServerFragment.newInstance(discoveryPackets.get(0).first, discoveryPackets.get(0).second), false);
             }
         }
 
@@ -109,7 +109,7 @@ public class HostFragment extends FragmentBase {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position > servers.size()) return;
-                    mListener.setFragment(HostServerFragment.newInstance(servers.get(position).first, servers.get(position).second));
+                    mListener.setFragment(HostServerFragment.newInstance(servers.get(position).first, servers.get(position).second), false);
                 }
             });
         }

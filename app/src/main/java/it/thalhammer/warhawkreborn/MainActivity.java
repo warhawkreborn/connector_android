@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
                             startActivity(browserIntent);
                         }
                     })
-
                     // A null listener allows the button to dismiss the dialog and take no further action.
                     .setNegativeButton(android.R.string.cancel, null)
                     .setIcon(android.R.drawable.ic_menu_upload)
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
         navigationView.setCheckedItem(R.id.nav_start_playing);
 
 
-        setFragment(new MainFragment());
+        setFragment(new MainFragment(), false);
 
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
         AppLog.getInstance().addEntry(getResources().getString(R.string.app_copyright_message));
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
     }
 
     public void setFragment(Fragment f) {
-        setFragment(f, false);
+        setFragment(f, true);
     }
 
     public void setFragment(Fragment f, boolean addtobackstack) {
