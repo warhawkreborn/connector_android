@@ -2,7 +2,7 @@ package it.thalhammer.warhawkreborn.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 public class FragmentBase extends Fragment {
     OnFragmentInteractionListener mListener;

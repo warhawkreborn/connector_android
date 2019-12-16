@@ -2,10 +2,8 @@ package it.thalhammer.warhawkreborn.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;

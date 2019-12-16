@@ -1,8 +1,8 @@
 package it.thalhammer.warhawkreborn;
 
-import android.arch.core.util.Function;
+import androidx.arch.core.util.Function;
 import android.content.Context;
-import android.support.v4.util.Consumer;
+import androidx.core.util.Consumer;
 import android.util.Log;
 
 import java.io.*;

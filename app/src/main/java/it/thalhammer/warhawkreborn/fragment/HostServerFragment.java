@@ -1,20 +1,14 @@
 package it.thalhammer.warhawkreborn.fragment;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.util.Pair;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ListView;
 import android.widget.TextView;
 import it.thalhammer.warhawkreborn.*;
 import it.thalhammer.warhawkreborn.model.AddHostResponse;
@@ -22,13 +16,11 @@ import it.thalhammer.warhawkreborn.model.CheckForwardingResponse;
 import it.thalhammer.warhawkreborn.networking.DiscoveryPacket;
 import org.bitlet.weupnp.GatewayDevice;
 import org.bitlet.weupnp.GatewayDiscover;
-import org.bitlet.weupnp.PortMappingEntry;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.*;
-import java.util.List;
 import java.util.Map;
 
 public class HostServerFragment extends FragmentBase {
