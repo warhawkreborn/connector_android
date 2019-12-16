@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preferences_night_mode_entries">
+        <item>@string/preferences_night_mode_on</item>
+        <item>@string/preferences_night_mode_off</item>
+        <item>@string/preferences_night_mode_os_default</item>
+    </array>
+    <array name="preferences_night_mode_entry_values">
+        <item>on</item>
+        <item>off</item>
+        <item>os</item>
+    </array>
+</resources>

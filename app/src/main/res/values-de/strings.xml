@@ -69,4 +69,9 @@
     <string name="responder_received_server_request">Server anfrage von %1$s empfangen</string>
     <string name="responder_no_serverlist">Keine Serverliste verfügbar!!!</string>
     <string name="nav_preferences">Einstellungen</string>
+
+    <string name="preferences_night_mode_on">Aktiviert</string>
+    <string name="preferences_night_mode_off">Deaktiviert</string>
+    <string name="preferences_night_mode_os_default">Systemeinstellung</string>
+    <string name="preferences_title_night_mode_preference">Dunkler Modus</string>
 </resources>

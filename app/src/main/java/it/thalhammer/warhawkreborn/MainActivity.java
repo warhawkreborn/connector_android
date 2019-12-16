@@ -25,7 +25,7 @@ import android.view.View;
 import it.thalhammer.warhawkreborn.fragment.*;
 import it.thalhammer.warhawkreborn.model.UpdateInfo;
 
-public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String SIDELOAD_APK_NAME = "com.android.packageinstaller";
@@ -34,6 +34,31 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
     private static Context appContext;
 
     public static Context getAppContext() { return appContext; }
+
+    private void updateNightModeSetting() {
+        String value = PreferenceManager.getDefaultSharedPreferences(this).getString("night_mode", "os");
+        switch(value) {
+            default:
+            case "os":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "on":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "off":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("night_mode")) {
+            String value = sharedPreferences.getString("night_mode", "os");
+            Log.i(LOG_TAG, "Changed preference " + key + " to " + value);
+            updateNightModeSetting();
+        }
+    }
 
     class UpdateTask extends AsyncTask<Void, Void, UpdateInfo> {
         @Override
@@ -68,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-
         super.onCreate(savedInstanceState);
+
+        updateNightModeSetting();
+
         appContext = this.getApplicationContext();
 
         // Fix for missing sax parser in upnp lib
@@ -113,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
                         break;
                     case R.id.nav_privacy_policy:
                         setFragment(new PrivacyPolicyFragment());
+                        break;
+                    case R.id.nav_preferences:
+                        setFragment(new SettingsFragment());
                         break;
 
                 }
@@ -177,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
     protected void onResume() {
         super.onResume();
         Log.i(LOG_TAG, "onResume");
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         ServerSearchResponder.getInstance().start();
     }
 
@@ -185,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
         super.onPause();
         Log.i(LOG_TAG, "onPause");
         ServerSearchResponder.getInstance().stop();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override

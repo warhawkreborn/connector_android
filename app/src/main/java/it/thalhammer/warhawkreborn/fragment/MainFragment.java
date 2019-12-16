@@ -51,6 +51,8 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_main_menu, menu);
     }
 

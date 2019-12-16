@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <DropDownPreference
+            app:key="night_mode"
+            app:title="@string/preferences_title_night_mode_preference"
+            app:entries="@array/preferences_night_mode_entries"
+            app:useSimpleSummaryProvider="true"
+            app:entryValues="@array/preferences_night_mode_entry_values"/>
+</PreferenceScreen>

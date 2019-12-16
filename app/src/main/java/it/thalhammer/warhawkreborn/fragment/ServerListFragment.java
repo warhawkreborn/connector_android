@@ -40,6 +40,8 @@ public class ServerListFragment extends FragmentBase implements ServerSearchResp
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_server_list_menu, menu);
     }
 

@@ -80,4 +80,10 @@
     <string name="responder_ok_no_servers">Startup ok, but no servers are online :(</string>
     <string name="responder_received_server_request">Received server request from %1$s</string>
     <string name="responder_no_serverlist">No serverlist available!!!\n</string>
+
+
+    <string name="preferences_night_mode_on">Enabled</string>
+    <string name="preferences_night_mode_off">Disabled</string>
+    <string name="preferences_night_mode_os_default">OS default</string>
+    <string name="preferences_title_night_mode_preference">Nightmode</string>
 </resources>
