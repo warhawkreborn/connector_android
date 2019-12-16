@@ -9,6 +9,7 @@
     <string name="nav_host_server">Host a server</string>
     <string name="nav_app_log">Debug log</string>
     <string name="nav_server_list">Server list</string>
+    <string name="nav_preferences">Preferences</string>
 
     <string name="fragment_log_log_output">Log output:</string>
 
@@ -56,7 +57,9 @@
     <string name="fragment_server_list_menu_reload">Reload</string>
     <string name="fragment_host_retry">Retry</string>
 
-    <string name="fragment_main_no_wifi">Looks like you are not connected to wifi. Make sure WIFI is turned on and connected.</string>
+    <string name="fragment_main_no_wifi">Looks like you are not connected to wifi. Make sure WIFI is turned on and
+        connected.
+    </string>
 
 
     <string name="pref_fcm_id">fcm_id</string>
@@ -67,9 +70,13 @@
     <string name="responder_thread_thread_crashed">Responderthread crashed:</string>
     <string name="responder_exited">Responder exited</string>
     <string name="responder_downloading_list">Downloading server list...</string>
-    <string name="responder_could_not_download">Could not download server list.\nMake sure you have an active internet connection.</string>
+    <string name="responder_could_not_download">Could not download server list.\nMake sure you have an active internet
+        connection.
+    </string>
     <string name="responder_found_n_servers">Found %1$d servers</string>
-    <string name="responder_broadcasting_n_servers">Broadcasting %1$d servers\nGo to your PS3 and search for local games!</string>
+    <string name="responder_broadcasting_n_servers">Broadcasting %1$d servers\nGo to your PS3 and search for local
+        games!
+    </string>
     <string name="responder_ok_no_servers">Startup ok, but no servers are online :(</string>
     <string name="responder_received_server_request">Received server request from %1$s</string>
     <string name="responder_no_serverlist">No serverlist available!!!\n</string>

@@ -1,5 +1,6 @@
 package it.thalhammer.warhawkreborn.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,6 +58,8 @@ public class ServerListFragment extends FragmentBase implements ServerSearchResp
 
     private void updateList(View view, ServerList slist) {
         if(view == null || slist == null) return;
+        Activity activity = this.getActivity();
+        if(activity == null) return;
         int active = 0;
         for(ServerList.Entry e : slist) if(e != null && e.isOnline()) active++;
         final DiscoveryPacket[] packets = new DiscoveryPacket[active];
@@ -65,7 +68,7 @@ public class ServerListFragment extends FragmentBase implements ServerSearchResp
             packets[active-1] = new DiscoveryPacket(e.getResponse());
             active--;
         }
-        ServerListListViewAdapter adapter=new ServerListListViewAdapter(this.getActivity(), packets);
+        ServerListListViewAdapter adapter=new ServerListListViewAdapter(activity, packets);
         ListView list = view.findViewById(R.id.fragment_server_list_list);
         if(list == null) return;
         list.setAdapter(adapter);

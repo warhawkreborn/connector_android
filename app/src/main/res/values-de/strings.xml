@@ -68,4 +68,5 @@
     <string name="responder_ok_no_servers">Start erfolgreich, aber es sind keine Server online :(</string>
     <string name="responder_received_server_request">Server anfrage von %1$s empfangen</string>
     <string name="responder_no_serverlist">Keine Serverliste verfügbar!!!</string>
+    <string name="nav_preferences">Einstellungen</string>
 </resources>
