@@ -1,11 +1,14 @@
 package it.thalhammer.warhawkreborn;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
         });
         navigationView.setCheckedItem(R.id.nav_start_playing);
 
+        createNotificationChannel();
 
         setFragment(new MainFragment(), false);
 
@@ -162,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
                 Log.i(LOG_TAG, "FCMID: " + fcmId);
         }
         final String installer = getPackageManager().getInstallerPackageName(getPackageName());
+        Log.d(LOG_TAG, "Installer:" + installer);
         if(installer == null || SIDELOAD_APK_NAME.equals(installer)) {
             new UpdateTask().execute();
         }
@@ -176,6 +181,29 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
         transaction.replace(R.id.content_frame, f);
         if(addtobackstack) transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
+            CharSequence server_name = getString(R.string.server_channel_name);
+            String server_description = getString(R.string.server_channel_description);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("serverinfo", server_name, importance);
+            channel.setDescription(server_description);
+            notificationManager.createNotificationChannel(channel);
+
+
+            CharSequence default_name = getString(R.string.default_channel_name);
+            String default_description = getString(R.string.default_channel_description);
+            importance = NotificationManager.IMPORTANCE_DEFAULT;
+            channel = new NotificationChannel("default", default_name, importance);
+            channel.setDescription(default_description);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override

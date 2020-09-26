@@ -9,8 +9,8 @@ android {
         applicationId "it.thalhammer.warhawkreborn"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1207
-        versionName "1.2.7"
+        versionCode 1208
+        versionName "1.2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {

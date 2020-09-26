@@ -2,8 +2,13 @@ package it.thalhammer.warhawkreborn.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.util.Log;
+import android.webkit.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
@@ -15,6 +20,40 @@ import it.thalhammer.warhawkreborn.ServerSearchResponder;
 import it.thalhammer.warhawkreborn.model.ServerList;
 
 public class MainFragment extends Fragment implements ServerSearchResponder.OnStateChangeListener {
+
+    /*private class MyWebViewClient extends WebViewClient {
+        public boolean failed = false;
+        public WebView myWebView;
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            Log.d("", "Load finished:" + url);
+            if(failed) myWebView.setVisibility(View.INVISIBLE);
+            else myWebView.setVisibility(View.VISIBLE);
+            myWebView.setBackgroundColor(Color.TRANSPARENT);
+            myWebView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            Log.e("", "onReceivedError");
+            failed = true;
+        }
+
+        @Override
+        public void onReceivedHttpError(
+                WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            Log.e("", "onReceivedHttpError");
+            failed = true;
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            Log.e("", "onReceivedSslError");
+            failed = true;
+        }
+    }
+
+    private MyWebViewClient viewClient;*/
 
     public MainFragment() {
     }
@@ -35,6 +74,15 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
     @Override
     public void onViewCreated(View view, Bundle savedInstance) {
         updateDisplay();
+        /*final WebView myWebView = (WebView)getView().findViewById(R.id.fragment_main_webview);
+        viewClient = new MyWebViewClient();
+        viewClient.myWebView = myWebView;
+        viewClient.failed = false;
+        myWebView.loadUrl("https://warhawk.thalhammer.it/api/app/news");
+        myWebView.clearCache(true);
+        myWebView.setBackgroundColor(Color.TRANSPARENT);
+        myWebView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+        myWebView.setWebViewClient(viewClient);*/
     }
 
     @Override
@@ -61,6 +109,8 @@ public class MainFragment extends Fragment implements ServerSearchResponder.OnSt
         int id = item.getItemId();
         if(id == R.id.fragment_main_menu_action_reload){
             ServerSearchResponder.getInstance().updateServers();
+            //viewClient.failed = false;
+            //viewClient.myWebView.reload();
             return true;
         }
 

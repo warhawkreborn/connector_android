@@ -1,5 +1,8 @@
 package it.thalhammer.warhawkreborn;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import androidx.arch.core.util.Function;
 import android.content.Context;
 import androidx.core.util.Consumer;
@@ -38,15 +41,21 @@ public class Util {
     }
 
     public static String downloadString(String uri) {
-        return downloadString(uri, false);
+        return downloadString(uri, false, false);
     }
 
-    public static String downloadString(String uri, boolean forceipv4) {
+    public static String downloadString(String uri, boolean forceipv4, boolean addFcmID) {
         HttpURLConnection connection = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getAppContext());
+        String fcmId = null;
+        if(prefs != null && addFcmID) {
+            fcmId = prefs.getString(MainActivity.getAppContext().getString(R.string.pref_fcm_id), null);
+        }
         try
         {
             URL url = new URL(uri);
             connection = (HttpURLConnection)url.openConnection();
+            if(fcmId != null) connection.setRequestProperty("X-Warhawk-FCMID", fcmId);
             // Read all the text returned by the server
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String str;
@@ -93,17 +102,23 @@ public class Util {
     }
 
     public static String uploadString(String url, String data) {
-        return uploadString(url, data, false);
+        return uploadString(url, data, false, false);
     }
 
-    public static String uploadString(String uri, String data, boolean forceipv4) {
+    public static String uploadString(String uri, String data, boolean forceipv4, boolean addFcmID) {
         HttpURLConnection connection = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getAppContext());
+        String fcmId = null;
+        if(prefs != null && addFcmID) {
+            fcmId = prefs.getString(MainActivity.getAppContext().getString(R.string.pref_fcm_id), null);
+        }
         try {
             //Create connection
             URL url = new URL(uri);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
+            if(fcmId != null) connection.setRequestProperty("X-Warhawk-FCMID", fcmId);
 
             connection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
             connection.setRequestProperty("Content-Language", "en-US");

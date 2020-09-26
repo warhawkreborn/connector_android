@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Warhawk Reborn</string>
+    <string name="app_name" translatable="false">Warhawk Reborn</string>
     <string name="warhawk_logo">Warhawk logo</string>
     <string name="app_copyright_message">Ⓒ2019, Dominik Thalhammer, https://thalhammer.it</string>
 
@@ -62,7 +62,7 @@
     </string>
 
 
-    <string name="pref_fcm_id">fcm_id</string>
+    <string name="pref_fcm_id" translatable="false">fcm_id</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
 
     <string name="responder_thread_local_ip">"Local address: %1$s"</string>
@@ -86,4 +86,9 @@
     <string name="preferences_night_mode_off">Disabled</string>
     <string name="preferences_night_mode_os_default">OS default</string>
     <string name="preferences_title_night_mode_preference">Nightmode</string>
+
+    <string name="server_channel_name">Servernotification</string>
+    <string name="server_channel_description">Notifications related to a server you host</string>
+    <string name="default_channel_name">Standard</string>
+    <string name="default_channel_description">Normal notifications for things like events or news</string>
 </resources>

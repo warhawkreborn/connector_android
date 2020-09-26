@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Warhawk Reborn</string>
     <string name="warhawk_logo">Warhawk logo</string>
     <string name="app_copyright_message">Ⓒ2019, Dominik Thalhammer, https://thalhammer.it</string>
     <string name="main_update_available">Update verfügbar</string>
@@ -53,7 +52,6 @@
     <string name="fragment_main_no_wifi">Scheinbar bist du nicht mit einem WLAN Netzwerk verbunden. Stelle sicher, dass
         dein WLAN eingeschaltet und verbunden ist.
     </string>
-    <string name="pref_fcm_id">fcm_id</string>
     <string name="nav_privacy_policy">Datenschutzerklärung</string>
     <string name="responder_thread_local_ip">Lokale IP Adresse: %1$s</string>
     <string name="responder_thread_socket_not_bound">Serversocket konnte nicht gebunden werden :(</string>
@@ -74,4 +72,9 @@
     <string name="preferences_night_mode_off">Deaktiviert</string>
     <string name="preferences_night_mode_os_default">Systemeinstellung</string>
     <string name="preferences_title_night_mode_preference">Dunkler Modus</string>
+
+    <string name="server_channel_name">Serverbenachrichtigungen</string>
+    <string name="server_channel_description">Benachrichtigungen für Server die von dir gehostet werden</string>
+    <string name="default_channel_name">Standard</string>
+    <string name="default_channel_description">Normale Benachrichtigungen, wie etwa Events oder News</string>
 </resources>
