@@ -25,8 +25,15 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+
 import it.thalhammer.warhawkreborn.fragment.*;
 import it.thalhammer.warhawkreborn.model.UpdateInfo;
+import lombok.SneakyThrows;
 
 public class MainActivity extends AppCompatActivity implements FragmentBase.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String LOG_TAG = MainActivity.class.getName();
@@ -170,6 +177,28 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnFr
         if(installer == null || SIDELOAD_APK_NAME.equals(installer)) {
             new UpdateTask().execute();
         }
+
+        try {
+            Date launchDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-10-01");
+            Date now = new Date();
+            if(now.compareTo(launchDate) >= 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.shutdown_popup_header)
+                        .setMessage(R.string.shutdown_popup_description)
+                        .setPositiveButton(R.string.shutdown_popup_showweb, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://psone.online/game/warhawk/reborn-shutdown"));
+                                startActivity(browserIntent);
+                            }
+                        })
+                        .setNegativeButton(R.string.shutdown_popup_later, null)
+                        .setIcon(R.drawable.warhawk_logo)
+                        .show();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setFragment(Fragment f) {

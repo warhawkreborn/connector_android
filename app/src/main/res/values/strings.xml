@@ -91,4 +91,9 @@
     <string name="server_channel_description">Notifications related to a server you host</string>
     <string name="default_channel_name">Standard</string>
     <string name="default_channel_description">Normal notifications for things like events or news</string>
+
+    <string name="shutdown_popup_header">Warhawk Reborn will change</string>
+    <string name="shutdown_popup_description">We brought back the original online mode, including stats, trophies and rankings. All while removing the need to use an app.\nBecause of this Warhawk Reborn will cease to exist in the way it currently does.</string>
+    <string name="shutdown_popup_showweb">Show me the new way</string>
+    <string name="shutdown_popup_later">Later</string>
 </resources>

@@ -77,4 +77,9 @@
     <string name="server_channel_description">Benachrichtigungen für Server die von dir gehostet werden</string>
     <string name="default_channel_name">Standard</string>
     <string name="default_channel_description">Normale Benachrichtigungen, wie etwa Events oder News</string>
+
+    <string name="shutdown_popup_header">Warhawk Reborn verändert sich</string>
+    <string name="shutdown_popup_description">Wir haben den alten Online Modus zusammen mit Statistiken, Throphäen and Rängen zurückgebracht. Zudem ist keine App mehr nötig um zu spielen.\nAus diesem Grund wird Warhawk Reborn in seiner jetzigen Form bald nicht mehr existieren.</string>
+    <string name="shutdown_popup_showweb">Zeig mir den neuen Weg</string>
+    <string name="shutdown_popup_later">Später</string>
 </resources>

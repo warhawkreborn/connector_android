@@ -1,7 +1,7 @@
 package it.thalhammer.warhawkreborn;
 
 import android.util.Log;
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import it.thalhammer.warhawkreborn.model.ServerList;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,13 +78,13 @@ public class ServerSearchResponderThread extends Thread {
                 appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_thread_crashed));
                 appendLog(e.getMessage());
                 appendLog(e.toString());
-                Crashlytics.logException(e);
+                FirebaseCrashlytics.getInstance().recordException(e);
             }
         } catch (IOException e) {
             appendLog(MainActivity.getAppContext().getResources().getString(R.string.responder_thread_thread_crashed));
             appendLog(e.getMessage());
             appendLog(e.toString());
-            Crashlytics.logException(e);
+            FirebaseCrashlytics.getInstance().recordException(e);
         } finally {
             if (serverSocket != null) serverSocket.close();
         }

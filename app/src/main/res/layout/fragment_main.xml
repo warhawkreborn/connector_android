@@ -6,6 +6,7 @@
               android:padding="@dimen/fragment_padding"
               android:orientation="vertical"
               tools:context=".fragment.MainFragment">
+
     <ImageView
             android:src="@drawable/ic_status_ok"
             android:layout_width="match_parent"
